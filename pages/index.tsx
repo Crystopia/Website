@@ -95,7 +95,7 @@ const HomePage: NextPage<HomePageProps> = ({ posts }) => {
       </p>
       <br></br>
 
-      <div className="p-12 w-auto  bg-slate-600 rounded-xl shadow-md flex items-center space-x-4">
+      <div className="p-11 w-auto  bg-slate-600 rounded-xl shadow-md flex items-center space-x-4">
         <Image
           className="w-8 h-8 rounded-full prevent-default md:w-10 lg:w-12 md:h-10 lg:h-12"
           src="/images/crystopia.png"
@@ -103,14 +103,14 @@ const HomePage: NextPage<HomePageProps> = ({ posts }) => {
           sizes="(max-width: 768px) 32px, (max-width: 1024px) 40px, 48px"
         />
         <h1>
-        <button
-                  className="hover:text-left hover:bg-gray-200 dark:hover:bg-gray-700 px-2 py-1 rounded"
-                  onClick={copyToClipboard}
-                  title="Copy IP to clipboard"
-                >
-                  crystopia.net
-                </button>
-          <code className="ml-60">
+          <button
+            className="hover:text-left hover:bg-gray-200 dark:hover:bg-gray-700 px-2 py-1 rounded"
+            onClick={copyToClipboard}
+            title="Copy IP to clipboard"
+          >
+            CRYSTOPIA.NET
+          </button>
+          <code className="ml-28">
             {playercount}/{maxplayercount}
           </code>
         </h1>
