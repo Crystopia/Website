@@ -226,7 +226,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
             <div>
               <Link target="_blank" href={'https://discord.crystopia.net'}>
-                <button className="">
+                <button>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="40"
