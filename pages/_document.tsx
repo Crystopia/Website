@@ -5,7 +5,7 @@ import Document, {
   Main,
   NextScript,
 } from 'next/document';
-import { analyticsTrackingId, websiteUrl } from '../config';
+import { analyticsTrackingId } from '../config';
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -22,7 +22,7 @@ class MyDocument extends Document {
             rel="icon"
             type="image/png"
             sizes="16x16"
-            href="/favicon-16x16.png"
+            href="/favicon.ico"
           />
           <link
             rel="icon"
@@ -31,12 +31,7 @@ class MyDocument extends Document {
             href="/favicon-32x32.png"
           />
           <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-          <link
-            rel="alternate"
-            type="application/rss+xml"
-            title="RSS feed for blog posts"
-            href={`${websiteUrl}/rss.xml`}
-          />
+        
           <script
             async
             src={`https://www.googletagmanager.com/gtag/js?id=${analyticsTrackingId}`}

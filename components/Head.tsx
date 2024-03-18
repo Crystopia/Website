@@ -19,7 +19,7 @@ export const Head: FC<HeadProps> = ({ title, description, image }) => {
       <meta property="og:url" content={`${websiteUrl}${router.asPath}`} />
       <link rel="canonical" href={`${websiteUrl}${router.asPath}`} />
       <meta property="og:type" content="website" />
-      <meta property="og:site_name" content="Andreas Klinger" />
+      <meta property="og:site_name" content="Crystopia.net" />
       <meta property="og:description" content={description} />
       <meta property="og:title" content={title} />
       {image && <meta property="og:image" content={image} />}

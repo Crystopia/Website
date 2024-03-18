@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { FC } from 'react';
-import { PostFrontMatter } from '../types';
+import { GuideFrontMatter } from '../types/guides';
 import Image from 'next/image';
 
-export const PostPreview: FC<PostFrontMatter> = ({
+export const GuidePreview: FC<GuideFrontMatter> = ({
   title,
   summary,
   slug,
@@ -19,8 +19,9 @@ export const PostPreview: FC<PostFrontMatter> = ({
     isimage = <Image src={image} alt={title} width={500} height={500}></Image>;
   }
 
+
   return (
-    <Link href={`/blog/${slug}`} className="block prevent-default group">
+    <Link href={`/guides/${slug}`} className="block prevent-default group">
       {isimage}
       <div className="space-y-3 md:flex md:justify-between md:space-y-0 md:space-x-8 lg:space-x-10">
         <div>

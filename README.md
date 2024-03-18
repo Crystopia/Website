@@ -1,4 +1,4 @@
-# Blog of Andreas Klinger
+# Blog of Crystopia.net
 
 In this repository you will find the source code for [klinger.io](https://klinger.io/).
 

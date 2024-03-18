@@ -4,6 +4,7 @@ module.exports = {
   content: ['./pages/**/*.tsx', './components/**/*.tsx', './posts/**/*.mdx'],
   darkMode: 'class',
   theme: {
+
     container: {
       center: true,
       padding: {

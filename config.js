@@ -1,5 +1,5 @@
 module.exports = {
-  websiteUrl: 'https://klinger.io',
+  websiteUrl: 'www.crystopia.net',
   analyticsTrackingId: 'G-3C1P7CZGS4',
   firebaseDatabaseUrl: 'https://klinger-io-default-rtdb.firebaseio.com',
   responsiveImage: {
