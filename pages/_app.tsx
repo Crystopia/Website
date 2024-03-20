@@ -213,7 +213,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                       Guides
                     </a>
                     <a
-                      href="/guides"
+                      href="/partner"
                       className="block px-4 py-2 text-sm text-white hover:bg-gray-700 hover:text-white text-center"
                       role="menuitem"
                     >
