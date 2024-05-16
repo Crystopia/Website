@@ -158,102 +158,82 @@ function MyApp({ Component, pageProps }: AppProps) {
 
         <header className="fixed top-0 left-0 z-20 w-full p-4 dark:bg-black bg-opacity-60 dark:bg-opacity-60 backdrop-blur md:p-5 lg:py-6 lg:px-10">
           <nav className="flex justify-between">
-            <Link
-              href="/"
-              className="prevent-default max-w-[45%] p-3 -m-3 text-base sm:text-lg lg:text-xl text-white hover:text-gray-900 font-semibold transition-colors whitespace-nowrap overflow-hidden text-ellipsis"
-            >
-              Crystopia.net
+            <nav className="navbar bg-body-tertiary ml-64">
+              <form className="container-fluid justify-content-start">
+                <Link href={'/'}>
+                  <button
+                    className="btn btn-outline-success me-2"
+                    type="button"
+                  >
+                    <b className="text-2xl text-white">Home</b>
+                  </button>
+                </Link>
+
+                <Link href={'/blog'}>
+                  <button
+                    className="btn btn-sm btn-outline-secondary ml-10"
+                    type="button"
+                  >
+                    <b className="text-2xl text-white">Blog</b>
+                  </button>
+                </Link>
+                <Link href={'/guides'}>
+                  <button
+                    className="btn btn-sm btn-outline-secondary ml-10"
+                    type="button"
+                  >
+                    <b className="text-2xl text-white">Guide</b>
+                  </button>
+                </Link>
+                <Link href={'#'}>
+                  <button
+                    className="btn btn-sm btn-outline-secondary ml-10"
+                    type="button"
+                  >
+                    <b className="text-2xl text-white">Store</b>
+                  </button>
+                </Link>
+              </form>
+            </nav>
+            <Link href={'https://discord.crystopia.net'}>
+              <button type="button" className="btn to-blue-800">
+                <Image
+                  width={50}
+                  height={50}
+                  alt="Discord"
+                  src={
+                    'https://cdn.discordapp.com/attachments/1183066613512151100/1240728026962984990/images.png?ex=66479d85&is=66464c05&hm=f9f57c2f2da791265cd9d5b0a1f49c438671370c634ef87b221ed93ef0995965&'
+                  }
+                ></Image>
+              </button>
             </Link>
+            {/* Toast */}
 
-            {/* Dropdown */}
-            <div
-              className="relative inline-block text-left float-right"
-              ref={ref}
-            >
-              <div>
-                <button
-                  type="button"
-                  className="inline-flex justify-center w-full rounded-md shadow-sm px-4 py-2 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
-                  id="options-menu"
-                  aria-haspopup="true"
-                  aria-expanded={isOpen}
-                  onClick={() => setIsOpen(!isOpen)}
-                >
-                  ☰
-                </button>
-              </div>
+            {/* <button type="button" className="btn btn-primary" id="liveToastBtn">
+              Show live toast
+            </button>
 
-              {isOpen && (
-                <div className="origin-top-center absolute left-1/2 transform -translate-x-1/2 mt-2 w-56 rounded-md shadow-lg bg-gray-800 ring-1 ring-black ring-opacity-5">
-                  <div
-                    className="py-1"
-                    role="menu"
-                    aria-orientation="vertical"
-                    aria-labelledby="options-menu"
-                  >
-                    <a
-                      href="/"
-                      className="block px-4 py-2 text-sm text-white hover:bg-gray-700 hover:text-white text-center"
-                      role="menuitem"
-                    >
-                      Home
-                    </a>
-                    <a
-                      href="/blog"
-                      className="block px-4 py-2 text-sm text-white hover:bg-gray-700 hover:text-white text-center"
-                      role="menuitem"
-                    >
-                      Blog
-                    </a>
-                    <a
-                      href="/guides"
-                      className="block px-4 py-2 text-sm text-white hover:bg-gray-700 hover:text-white text-center"
-                      role="menuitem"
-                    >
-                      Guides
-                    </a>
-                    <a
-                      href="/partner"
-                      className="block px-4 py-2 text-sm text-white hover:bg-gray-700 hover:text-white text-center"
-                      role="menuitem"
-                    >
-                      Partner
-                    </a>
-                  </div>
+            <div className="toast-container position-fixed bottom-0 end-0 p-3">
+              <div
+                id="liveToast"
+                className="toast"
+                role="alert"
+                aria-live="assertive"
+                aria-atomic="true"
+              >
+                <div className="toast-header">
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="toast"
+                    aria-label="Close"
+                  ></button>
                 </div>
-              )}
-            </div>
-
-            <div>
-              <Link target="_blank" href={'https://discord.crystopia.net'}>
-                <button>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="40"
-                    height="40"
-                    fill="currentColor"
-                    className="bi bi-discord"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612" />
-                  </svg>
-                </button>
-              </Link>
-            </div>
-
-            <div className="p-3 w-auto  bg-slate-600 rounded-xl shadow-md flex items-center space-x-4">
-              <div>
-                {' '}
-                <button
-                  className="hover:text-left hover:bg-gray-200 dark:hover:bg-gray-700 px-2 py-1 rounded"
-                  onClick={copyToClipboard}
-                  title="Copy IP to clipboard"
-                >
-                  CRYSTOPIA.NET
-                </button>
-                {playercount}
+                <div className="toast-body">Copied IP to clipboard!</div>
               </div>
-            </div>
+            </div> */}
+
+            {/* Toast */}
           </nav>
         </header>
 

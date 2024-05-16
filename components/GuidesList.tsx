@@ -9,18 +9,16 @@ interface GuidesListProps {
 }
 
 export const GuideList: FC<GuidesListProps> = ({ className, guides }) => (
-  <ul
-    className={`prevent-default space-y-10 md:space-y-12 lg:space-y-14 ${className}`}
-  >
+  <div className={`flex flex-wrap justify-between ${className}`}>
     {guides.map((post, index) => (
-      <li key={post.slug} className="space-y-10 md:space-y-12 lg:space-y-14">
+      <div key={post.slug} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-4">
         <GuideSeparator
           currentPost={post}
           previousPost={guides[index - 1]}
           posts={guides}
         />
         <GuidePreview {...post} />
-      </li>
+      </div>
     ))}
-  </ul>
+  </div>
 );
