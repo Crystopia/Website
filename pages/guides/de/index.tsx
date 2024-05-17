@@ -1,9 +1,10 @@
 import { GetStaticProps, NextPage } from 'next';
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
-import { Head, Image, GuideList } from '../../components';
-import { getFrontMatterOfGuides } from '../../helpers/getFrontMatterOfGuides';
-import { GuideFrontMatter } from '../../types/guides';
+import { Head, Image } from '../../../components';
+import { GuideList } from '../../../components/GuidesListDE';
+import { getFrontMatterOfGuides } from '../../../helpers/getFrontMatterOfGuidesDE';
+import { GuideFrontMatter } from '../../../types/guides';
 
 interface HomePageProps {
   guides: GuideFrontMatter[];
@@ -51,16 +52,18 @@ const HomePage: NextPage<HomePageProps> = ({ guides }) => {
         <h1>Crystopia.net | Guides</h1>
       </div>
       <div>
-        <Link href={'/guides/de'}>
-          <b className="text-white hover:text-gray-400">Go to German Guides</b>
+        <Link href={'/guides'}>
+          <b className="text-white hover:text-gray-400">
+            Go to Englisch Guides
+          </b>
         </Link>
       </div>
       <p>
-        Here You can Find our Guides and Tutorials for the Crystopia Minecraft
-        Server. To get started, you can use the search bar below to find the
-        guide you are looking for. If you can't find what you are looking for,
-        feel free to join our Discord and ask for help. We are always happy to
-        help! 🚀
+      Hier finden Sie unsere Guides und Tutorials für den Crystopia Minecraft
+        Server. Um loszulegen, kannst du die Suchleiste unten benutzen, um den
+        Anleitung zu finden, die Sie suchen. Wenn Sie nicht finden können, was Sie suchen,
+        kannst du gerne unserem Discord beitreten und um Hilfe bitten. Wir sind immer froh, wenn wir
+        helfen! 🚀
       </p>
 
       <br></br>

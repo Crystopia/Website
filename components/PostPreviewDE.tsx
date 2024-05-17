@@ -32,7 +32,7 @@ export const PostPreview: FC<PostFrontMatter> = ({
 
   return (
     <Link
-      href={`/blog/${slug}`}
+      href={`/blog/de/${slug}`}
       className="block prevent-default group relative overflow-hidden"
     >
       <div className="flex flex-col">

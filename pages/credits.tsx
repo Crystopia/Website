@@ -27,39 +27,28 @@ const HomePage: NextPage = ({}) => {
         <h1>Crystopia.net | Credits</h1>
       </div>
 
-      <h3>
-        Thanks to all of the inspirations <strong>or</strong> provide ths
-        Service{' '}
-      </h3>
-      <br></br>
-      <br></br>
+      <p>
+        Thank you to all the contributors who have made Crystopia.net possible.
+        We deeply appreciate your hard work, dedication, and creativity in
+        crafting a unique and engaging Minecraft server experience for our
+        community. Your countless hours of effort, innovative ideas, and
+        unwavering commitment have transformed Crystopia.net into a vibrant and
+        thriving environment. Without your invaluable contributions,
+        Crystopia.net would not be the incredible place it is today. From the
+        bottom of our hearts, thank you for being an integral part of our
+        journey and for helping us build a wonderful virtual world that brings
+        joy to so many players.
+      </p>
 
-      <h4>Minecraft Server</h4>
-      <div className="text-stone-500">originrealms.com</div>
-      <div className="text-stone-500">landania.net</div>
-      <div className="text-stone-500">hibiscusmc.com</div>
-      <div className="text-stone-500">hypixel.net</div>
-      <div className="text-stone-500">mccisland.net</div>
+      <h4>Big Thanks to</h4>
+      <ul>
+        <li>originrealms.com</li>
+        <li>mccisland.net</li>
+        <li>hibiscusmc.com</li>
+        <li>hypixel.net</li>
+        <li>itzg/minecraft-server</li>
+      </ul>
 
-      <h4>Tools</h4>
-      <div className="text-stone-500">Google</div>
-      <div className="text-stone-500">Discord</div>
-      <div className="text-stone-500">Docker</div>
-      <div className="text-stone-500">Portianer</div>
-      <div className="text-stone-500">itzg/minecraft-server</div>
-
-      <h4>Plugins</h4>
-      <div className="text-stone-500">Techscode</div>
-      <div className="text-stone-500">HelpChat</div>
-      <div className="text-stone-500">Denizen/Citizens</div>
-      <div className="text-stone-500">LoneDev</div>
-      <div className="text-stone-500">Luckperms</div>
-
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-    
       <ul className="flex mt-6 space-x-8 prevent-default md:space-x-9 lg:space-x-10 md:mt-8 lg:mt-10">
         {[].map(({ href, Icon }) => (
           <li key={href}>

@@ -5,14 +5,14 @@ import { getMDXComponent } from 'mdx-bundler/client';
 import { join } from 'path';
 import { useEffect, useMemo } from 'react';
 import getReadingTime from 'reading-time';
-import { Head, PostImage } from '../../components';
-import { fetchDatabase } from '../../helpers/fetchDatabase';
-import { GuideFrontMatter, Guides } from '../../types/guides';
+import { Head, PostImage } from '../../../components';
+import { fetchDatabase } from '../../../helpers/fetchDatabase';
+import { GuideFrontMatter, Guides } from '../../../types/guides';
 
 // Build time Node.js code
 export async function getStaticPaths() {
   // Get blog post file names
-  const fileNames = readdirSync(join(process.cwd(), 'enguides'));
+  const fileNames = readdirSync(join(process.cwd(), 'deguides'));
 
   // Retun path of every blog post
   return {
@@ -37,7 +37,7 @@ export const getStaticProps: GetStaticProps<PostPageProps> = async ({
   const slug = params!.slug as string;
 
   // Read and bundle MDX source code
-  const filePath = join(process.cwd(), 'enguides', `${slug}.mdx`);
+  const filePath = join(process.cwd(), 'deguides', `${slug}.mdx`);
   const mdxSource = readFileSync(filePath, 'utf8');
   const bundleResult = await bundleMDX({ source: mdxSource });
 

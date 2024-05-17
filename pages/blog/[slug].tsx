@@ -13,7 +13,7 @@ import { PostFrontMatter, Post } from '../../types';
 // Build time Node.js code
 export async function getStaticPaths() {
   // Get blog post file names
-  const fileNames = readdirSync(join(process.cwd(), 'posts'));
+  const fileNames = readdirSync(join(process.cwd(), 'enposts'));
 
   // Retun path of every blog post
   return {
@@ -30,7 +30,6 @@ interface PostPageProps {
   post: Post;
 }
 
-// Build time Node.js code
 export const getStaticProps: GetStaticProps<PostPageProps> = async ({
   params,
 }) => {
@@ -38,7 +37,7 @@ export const getStaticProps: GetStaticProps<PostPageProps> = async ({
   const slug = params!.slug as string;
 
   // Read and bundle MDX source code
-  const filePath = join(process.cwd(), 'posts', `${slug}.mdx`);
+  const filePath = join(process.cwd(), 'enposts', `${slug}.mdx`);
   const mdxSource = readFileSync(filePath, 'utf8');
   const bundleResult = await bundleMDX({ source: mdxSource });
 
@@ -71,44 +70,66 @@ export const getStaticProps: GetStaticProps<PostPageProps> = async ({
 // Client side React.js code
 const PostPage: NextPage<PostPageProps> = ({ post }) => {
   // Destructure post object
-  const { title, summary, slug, readingTime, sourceCode } = post;
-
+  const { title, summary, slug, readingTime, sourceCode, tag } = post;
 
   // Create string for publication date
   const publishedAt = useMemo(
     () =>
-    new Date(post.publishedAt).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    }),
+      new Date(post.publishedAt).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      }),
     [post.publishedAt]
   );
 
   // Convert source code to component
   const BlogPost = useMemo(() => getMDXComponent(sourceCode), [sourceCode]);
 
+  let tagColorClass = '';
+  switch (tag) {
+    case 'Update':
+      tagColorClass = 'text-cyan-400';
+      break;
+    case 'Event':
+      tagColorClass = 'text-green-400';
+      break;
+    default:
+      tagColorClass = 'text-stone-600';
+  }
+
   return (
     <>
-      <Head title={`${title} | Crystopia.net`} description={summary} />
+      <Head title={`${title} | Crystopia.net`} description={`${summary}`} />
 
       <article>
         <h1>{title}</h1>
-        <div className="text-base lg:text-lg mt-4 md:mt-6 lg:mt-8 mb-12 md:mb-20 lg:mb-24">
-        {post.tag && (
-            <p className="relative inline px-2 py-1 ml-3 text-xs font-semibold rounded-lg -top-px bg-emerald-500/10 dark:bg-emerald-400/10 lg:text-base whitespace-nowrap text-emerald-500 dark:text-emerald-400 lg:ml-5 lg:px-3">
-              {post.tag}
+        <div className="flex flex-col">
+          <div className="mb-4 relative">
+            <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+          <div className="transform scale-100 group-hover:scale-95 transition-transform duration-300">
+            <p className="text-gray-600 font-extrabol text-sm mb-2 font-semibold">
+              <b>
+                {tag && (
+                  <span
+                    className={`inline-block py-1 d rounded-lg ${tagColorClass} mr-2`}
+                  >
+                    {tag}
+                  </span>
+                )}
+                - {publishedAt}
+              </b>
             </p>
-          )} - {publishedAt}
-          {' '}
-          - by {post.author}
+          </div>
         </div>
 
         {/*
-        Since the return type "null" was not added to the component types of
-        "mdx-bundler", but it is included by default in the "FC" type of React,
-        I cast PostImage to "any". In the future, this may be removed again.
-        */}
+  Since the return type "null" was not added to the component types of
+  "mdx-bundler", but it is included by default in the "FC" type of React,
+  I cast PostImage to "any". In the future, this may be removed again.
+  */}
         <BlogPost components={{ Image: PostImage as any }} />
       </article>
     </>

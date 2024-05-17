@@ -125,6 +125,21 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef(null);
 
+  const [showToast, setShowToast] = useState(false);
+
+  const handleCopy = () => {
+    // Kopieraktion ausführen
+    navigator.clipboard.writeText('crystopia.net');
+
+    // Toast anzeigen
+    setShowToast(true);
+
+    // Timeout, um das Toast nach ein paar Sekunden auszublenden
+    setTimeout(() => {
+      setShowToast(false);
+    }, 1000);
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (ref.current && !ref.current.contains(event.target)) {
@@ -195,8 +210,9 @@ function MyApp({ Component, pageProps }: AppProps) {
                 </Link>
               </form>
             </nav>
+            <div></div>
             <Link href={'https://discord.crystopia.net'}>
-              <button type="button" className="btn to-blue-800">
+              <button type="button" className="btn to-blue-800 ml-650px">
                 <Image
                   width={50}
                   height={50}
@@ -207,6 +223,24 @@ function MyApp({ Component, pageProps }: AppProps) {
                 ></Image>
               </button>
             </Link>
+            <p className="ml-2"></p>
+            <div className="relative">
+              <button
+                id="ipbtn"
+                onClick={handleCopy}
+                className="bg-#EAA21A px-4 py-2 rounded hover:bg-#FAC021"
+              >
+                <b className="text-center text-xl font-extrabold text-#7C2D12">
+                  CRYSTOPIA.NET
+                </b>
+              </button>
+              {showToast && (
+                <div className="bg-green-500 text-white px-4 py-2 rounded absolute mt-500%">
+                  Copied IP to clipboard!
+                </div>
+              )}
+            </div>
+
             {/* Toast */}
 
             {/* <button type="button" className="btn btn-primary" id="liveToastBtn">
@@ -249,7 +283,6 @@ function MyApp({ Component, pageProps }: AppProps) {
             <Link href={'/leagel/imprint'}>Imprint</Link> -{' '}
             <Link href={'/leagel/terms'}>Terms of Service</Link> -{' '}
             <Link href={'/leagel/privacy'}>Privacy</Link> -{' '}
-            <Link href={'/partner'}>Partner</Link> -{' '}
             <Link href={'/credits'}>Credits</Link> -{' '}
             <Link href={'/team'}>Team</Link>{' '}
           </div>

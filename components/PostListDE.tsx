@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { PostFrontMatter } from '../types';
-import { PostPreview } from './PostPreview';
+import { PostPreview } from './PostPreviewDE';
 import { PostSeparator } from './PostSeparator';
 
 interface PostListProps {

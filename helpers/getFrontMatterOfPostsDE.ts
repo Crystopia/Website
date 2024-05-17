@@ -6,12 +6,12 @@ import { fetchDatabase } from './fetchDatabase';
 
 export async function getFrontMatterOfPosts(): Promise<PostFrontMatter[]> {
   // Get blog post file names
-  const fileNames = readdirSync(join(process.cwd(), 'enposts'));
+  const fileNames = readdirSync(join(process.cwd(), 'deposts'));
 
   // Create list with front matter of all blog post
   const allPosts: PostFrontMatter[] = await Promise.all(
     fileNames.map(async (fileName) => {
-      const filePath = join(process.cwd(), 'enposts', fileName);
+      const filePath = join(process.cwd(), 'deposts', fileName);
       const fileData = readFileSync(filePath, 'utf8');
       const frontMatter = matter(fileData).data as Pick<
         PostFrontMatter,

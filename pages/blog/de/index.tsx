@@ -1,46 +1,44 @@
 import { GetStaticProps, NextPage } from 'next';
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
-import { Head, Image, GuideList } from '../../components';
-import { getFrontMatterOfGuides } from '../../helpers/getFrontMatterOfGuides';
-import { GuideFrontMatter } from '../../types/guides';
+import { Head, Image } from '../../../components';
+import { PostList } from '../../../components/PostListDE';
+import { getFrontMatterOfPosts } from '../../../helpers/getFrontMatterOfPostsDE';
+import { PostFrontMatter } from '../../../types';
 
 interface HomePageProps {
-  guides: GuideFrontMatter[];
+  posts: PostFrontMatter[];
 }
 
 // Build time Node.js code
 export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
   // Create list with all blog post
-  const guides = await getFrontMatterOfGuides();
-
-  // Genearte RSS feed and add it to public directory
+  const posts = await getFrontMatterOfPosts();
 
   // Return page props
-  return { props: { guides } };
+  return { props: { posts } };
 };
 
 // Client side React.js code
-const HomePage: NextPage<HomePageProps> = ({ guides }) => {
+const HomePage: NextPage<HomePageProps> = ({ posts }) => {
   // Create search state
   const [search, setSearch] = useState('');
 
-  // Create filtered guides list
-  const filteredguides = useMemo(
+  // Create filtered posts list
+  const filteredPosts = useMemo(
     () =>
-      guides.filter(({ title }) =>
+      posts.filter(({ title }) =>
         title.toLowerCase().includes(search.toLowerCase())
       ),
-    [guides, search]
+    [posts, search]
   );
 
   return (
     <>
       <Head
-        title="Guides - Crystopia.net"
+        title="Blog - Crystopia.net"
         description="Unique Minecraft server with a focus on community and creativity. Join us today!"
       />
-
       <div className="flex items-center space-x-4 md:space-x-5 lg:space-x-6">
         <Image
           className="w-8 h-8 rounded-full prevent-default md:w-10 lg:w-12 md:h-10 lg:h-12"
@@ -48,22 +46,14 @@ const HomePage: NextPage<HomePageProps> = ({ guides }) => {
           alt="Crystopia.net"
           sizes="(max-width: 768px) 32px, (max-width: 1024px) 40px, 48px"
         />
-        <h1>Crystopia.net | Guides</h1>
+        <h1>Crystopia.net | Blog</h1>
       </div>
+
       <div>
-        <Link href={'/guides/de'}>
-          <b className="text-white hover:text-gray-400">Go to German Guides</b>
+        <Link href={'/blog'}>
+          <b className="text-white hover:text-gray-400">Go to Englisch Blog</b>
         </Link>
       </div>
-      <p>
-        Here You can Find our Guides and Tutorials for the Crystopia Minecraft
-        Server. To get started, you can use the search bar below to find the
-        guide you are looking for. If you can't find what you are looking for,
-        feel free to join our Discord and ask for help. We are always happy to
-        help! 🚀
-      </p>
-
-      <br></br>
 
       <ul className="flex mt-6 space-x-8 prevent-default md:space-x-9 lg:space-x-10 md:mt-8 lg:mt-10">
         {[].map(({ href, Icon }) => (
@@ -78,11 +68,8 @@ const HomePage: NextPage<HomePageProps> = ({ guides }) => {
         ))}
       </ul>
 
-      {filteredguides.length ? (
-        <GuideList
-          className="mt-12 md:mt-16 lg:mt-20"
-          guides={filteredguides}
-        />
+      {filteredPosts.length ? (
+        <PostList className="mt-12 md:mt-16 lg:mt-20" posts={filteredPosts} />
       ) : (
         <p className="mt-12 md:mt-16 lg:mt-20">
           The post you are looking for does not exist yet. 😬

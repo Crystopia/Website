@@ -5,19 +5,19 @@ import { GuideFrontMatter } from '../types/guides';
 
 export async function getFrontMatterOfGuides(): Promise<[GuideFrontMatter]> {
   // Get blog post file names
-  const fileNames = readdirSync(join(process.cwd(), 'enguides'));
+  const fileNames = readdirSync(join(process.cwd(), 'deguides'));
 
   // Create list with front matter of all blog post
   const allPosts: GuideFrontMatter[] = await Promise.all(
     fileNames.map(async (fileName) => {
-      const filePath = join(process.cwd(), 'enguides', fileName);
+      const filePath = join(process.cwd(), 'deguides', fileName);
       const fileData = readFileSync(filePath, 'utf8');
       const frontMatter = matter(fileData).data as Pick<
         GuideFrontMatter,
         'title' | 'summary' | 'publishedAt'
       >;
       const slug = fileName.replace('.mdx', '');
-    
+
       return { ...frontMatter, slug };
     })
   );

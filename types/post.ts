@@ -1,11 +1,10 @@
 export interface PostFrontMatter {
   title: string;
-  summary: string;
   publishedAt: string;
-  slug: string;
-  tag?: string;
+  tag: string;
   image?: string;
-  author?: string;
+  summary: string;
+  slug: string;
 }
 
 export interface Post extends PostFrontMatter {
