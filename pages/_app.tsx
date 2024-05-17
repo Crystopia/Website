@@ -220,7 +220,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                   height={50}
                   alt="Discord"
                   src={
-                    'https://cdn.discordapp.com/attachments/1183066613512151100/1240728026962984990/images.png?ex=66479d85&is=66464c05&hm=f9f57c2f2da791265cd9d5b0a1f49c438671370c634ef87b221ed93ef0995965&'
+                    '/images/discord.png'
                   }
                 />
               </button>
