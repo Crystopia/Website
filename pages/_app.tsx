@@ -98,7 +98,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const setBackgroundToBlack = () => {
     document.body.style.backgroundColor = '#000000';
   };
-  
+
   useEffect(() => {
     setBackgroundToBlack();
   });
@@ -213,15 +213,13 @@ function MyApp({ Component, pageProps }: AppProps) {
               </form>
             </nav>
             <div></div>
-            <Link href={'https://discord.crystopia.net'}>
+            <Link target="_blank" href={'https://discord.crystopia.net'}>
               <button type="button" className="btn to-blue-800 ml-650px">
                 <Image
                   width={50}
                   height={50}
                   alt="Discord"
-                  src={
-                    '/images/discord.png'
-                  }
+                  src={'/images/discord.png'}
                 />
               </button>
             </Link>
