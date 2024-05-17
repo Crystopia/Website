@@ -26,6 +26,9 @@ class MyDocument extends Document {
             href="/favicon-32x32.png"
           />
 
+          <link rel="stylesheet" href="../styles/global.css" />
+          <link rel="stylesheet" href="../styles/font.css" />
+
           <script
             async
             src={`https://www.googletagmanager.com/gtag/js?id=${analyticsTrackingId}`}
@@ -41,7 +44,7 @@ class MyDocument extends Document {
             }}
           />
         </Head>
-        <body className="bg-white dark:bg-black text-gray-700 dark:text-gray-300 bg-black">
+        <body className="dark:bg-black text-gray-700 dark:text-gray-300 bg-black">
           <Main />
           <NextScript />
         </body>

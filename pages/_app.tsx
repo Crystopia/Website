@@ -95,25 +95,37 @@ function MyApp({ Component, pageProps }: AppProps) {
   //
   // Background gradient
 
-  const [playercount, setPlayercount] = useState('');
-  const [maxplayercount, setMaxplayercount] = useState('');
-
-  const printResult = async () => {
-    try {
-      const result = await axios.get(
-        'https://api.mcsrvstat.us/2/crystopia.net'
-      );
-      const onlinePlayers = result.data.players.online;
-      const maxplayercount = result.data.players.max;
-      setPlayercount(onlinePlayers);
-      setMaxplayercount(maxplayercount);
-    } catch (err) {
-      console.error('Failed to get result: ', err);
-    }
+  const setBackgroundToBlack = () => {
+    document.body.style.backgroundColor = '#000000';
   };
+  
   useEffect(() => {
-    printResult();
-  }, []);
+    setBackgroundToBlack();
+  });
+
+  // mcstatus API
+  //
+  // const [playercount, setPlayercount] = useState('');
+  // const [maxplayercount, setMaxplayercount] = useState('');
+
+  // const printResult = async () => {
+  //   try {
+  //     const result = await axios.get(
+  //       'https://api.mcsrvstat.us/2/crystopia.net'
+  //     );
+  //     const onlinePlayers = result.data.players.online;
+  //     const maxplayercount = result.data.players.max;
+  //     setPlayercount(onlinePlayers);
+  //     setMaxplayercount(maxplayercount);
+  //   } catch (err) {
+  //     console.error('Failed to get result: ', err);
+  //   }
+  // };
+  // useEffect(() => {
+  //   printResult();
+  // }, []);
+  //
+  // mcstatus API
 
   const copyToClipboard = async () => {
     try {
