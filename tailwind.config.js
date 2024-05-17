@@ -22,7 +22,7 @@ module.exports = {
         sans: ['Nunito Sans', ...fontFamily.sans],
       },
       margin: {
-        '500%': '500%',
+        '380%': '380%',
         '650px': '650px',
       },
       colors: {
