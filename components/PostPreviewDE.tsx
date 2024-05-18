@@ -10,9 +10,8 @@ export const PostPreview: FC<PostFrontMatter> = ({
   image,
   summary,
   slug,
-  ...post
 }) => {
-  let isimage = '';
+  let isimage
 
   if (image) {
     isimage = <Image src={image} alt={title} width={4000} height={20} />;

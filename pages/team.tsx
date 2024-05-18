@@ -80,7 +80,7 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
   return { props: { posts } };
 };
 
-const HomePage: NextPage<HomePageProps> = ({ posts }) => {
+const HomePage: NextPage<HomePageProps> = () => {
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
 
   return (

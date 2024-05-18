@@ -1,27 +1,15 @@
 import { AppProps } from 'next/app';
-import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useRef, useEffect, useMemo, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { trackAnalyticsPageview } from '../helpers/trackAnalyticsPageview';
 import 'tailwindcss/tailwind.css';
 import '../styles/font.css';
 import '../styles/global.css';
 import '../styles/LoadingScreen.css';
-import axios from 'axios';
 import Image from 'next/image';
 
-const mcs = require('node-mcstatus');
-
 function MyApp({ Component, pageProps }: AppProps) {
-  const LoadingScreen: React.FC = () => {
-    return (
-      <div className="loading-screen">
-        <div className="loading-spinner"></div>
-      </div>
-    );
-  };
-
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const gradientElementRef = useRef<HTMLDivElement>(null);
   const opacityElementRef = useRef<HTMLDivElement>(null);
@@ -127,7 +115,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   //
   // mcstatus API
 
-  const copyToClipboard = async () => {
+  async () => {
     try {
       await navigator.clipboard.writeText('crystopia.net');
       console.log('Text copied to clipboard');
@@ -135,9 +123,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       console.error('Failed to copy text: ', err);
     }
   };
-
-  const [isOpen, setIsOpen] = useState(false);
-  const ref = useRef(null);
 
   const [showToast, setShowToast] = useState(false);
 
@@ -158,7 +143,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             alt="Loading..."
             width={1000}
             height={20}
-            className="animate-spin h-auto max-w-xs grayscale max-w-9" // Add this line
+            className="animate-spin h-auto grayscale max-w-9" // Add this line
           />
         </div>
       ) : null}

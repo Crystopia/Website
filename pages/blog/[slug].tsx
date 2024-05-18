@@ -3,11 +3,10 @@ import { GetStaticProps, NextPage } from 'next';
 import { bundleMDX } from 'mdx-bundler';
 import { getMDXComponent } from 'mdx-bundler/client';
 import { join } from 'path';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import getReadingTime from 'reading-time';
 import { Head, PostImage } from '../../components';
 import { fetchDatabase } from '../../helpers/fetchDatabase';
-import { useViews } from '../../hooks';
 import { PostFrontMatter, Post } from '../../types';
 
 // Build time Node.js code
@@ -45,7 +44,7 @@ export const getStaticProps: GetStaticProps<PostPageProps> = async ({
   const sourceCode = bundleResult.code;
   const frontMatter = bundleResult.frontmatter as Pick<
     PostFrontMatter,
-    'title' | 'summary' | 'publishedAt'
+    'title' | 'summary' | 'publishedAt' | 'tag' // Add 'tag' property
   >;
   const views = (await fetchDatabase<number>(`/views/${slug}`)) || 0;
   const readingTimeResult = getReadingTime(mdxSource);
@@ -70,7 +69,7 @@ export const getStaticProps: GetStaticProps<PostPageProps> = async ({
 // Client side React.js code
 const PostPage: NextPage<PostPageProps> = ({ post }) => {
   // Destructure post object
-  const { title, summary, slug, readingTime, sourceCode, tag } = post;
+  const { title, summary, sourceCode, tag } = post;
 
   // Create string for publication date
   const publishedAt = useMemo(

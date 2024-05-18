@@ -1,12 +1,8 @@
 import { GetStaticProps, NextPage } from 'next';
-import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
-import { Head, Image, PostList } from '../components';
+import { useMemo, useState } from 'react';
+import { Head, Image } from '../components';
 import { getFrontMatterOfPosts } from '../helpers/getFrontMatterOfPosts';
 import { PostFrontMatter } from '../types';
-import { log } from 'console';
-import axios from 'axios';
-
 interface HomePageProps {
   posts: PostFrontMatter[];
 }
@@ -23,10 +19,10 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
 // Client side React.js code
 const HomePage: NextPage<HomePageProps> = ({ posts }) => {
   // Create search state
-  const [search, setSearch] = useState('');
+  const [search] = useState('');
 
   // Create filtered posts list
-  const filteredPosts = useMemo(
+  useMemo(
     () =>
       posts.filter((post) =>
         post.title.toLowerCase().includes(search.toLowerCase())
@@ -34,7 +30,7 @@ const HomePage: NextPage<HomePageProps> = ({ posts }) => {
     [posts, search]
   );
 
-  const copyToClipboard = async () => {
+  async () => {
     try {
       await navigator.clipboard.writeText('crystopia.net');
       console.log('Text copied to clipboard');
@@ -42,27 +38,6 @@ const HomePage: NextPage<HomePageProps> = ({ posts }) => {
       console.error('Failed to copy text: ', err);
     }
   };
-
-  const [playercount, setPlayercount] = useState('');
-  const [maxplayercount, setMaxplayercount] = useState('');
-
-  const printResult = async () => {
-    try {
-      const result = await axios.get(
-        'https://api.mcsrvstat.us/2/crystopia.net'
-      );
-      const onlinePlayers = result.data.players.online;
-      const maxplayercount = result.data.players.max;
-      setPlayercount(onlinePlayers); // Aktualisieren der playercount-Variable
-      setMaxplayercount(maxplayercount);
-    } catch (err) {
-      console.error('Failed to get result: ', err);
-    }
-  };
-
-  useEffect(() => {
-    printResult();
-  }, []); // Die printResult-Funktion wird aufgerufen, wenn die Komponente gemountet wird
 
   return (
     <>
@@ -94,7 +69,6 @@ const HomePage: NextPage<HomePageProps> = ({ posts }) => {
         Minecraft version on crystopia.net.
       </p>
       <br></br>
-
     </>
   );
 };

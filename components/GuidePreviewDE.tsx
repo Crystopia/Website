@@ -7,11 +7,9 @@ export const GuidePreview: FC<GuideFrontMatter> = ({
   title,
   summary,
   slug,
-  tag,
   image,
-  ...post
 }) => {
-  let isimage = '';
+  let isimage;
 
   if (!image) {
     isimage = '';

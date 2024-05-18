@@ -23,7 +23,7 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
 // Client side React.js code
 const HomePage: NextPage<HomePageProps> = ({ guides }) => {
   // Create search state
-  const [search, setSearch] = useState('');
+  const [search] = useState('');
 
   // Create filtered guides list
   const filteredguides = useMemo(
@@ -58,7 +58,7 @@ const HomePage: NextPage<HomePageProps> = ({ guides }) => {
       <p>
         Here You can Find our Guides and Tutorials for the Crystopia Minecraft
         Server. To get started, you can use the search bar below to find the
-        guide you are looking for. If you can't find what you are looking for,
+        guide you are looking for. If you can&apos;t find what you are looking for,
         feel free to join our Discord and ask for help. We are always happy to
         help! 🚀
       </p>
@@ -66,7 +66,7 @@ const HomePage: NextPage<HomePageProps> = ({ guides }) => {
       <br></br>
 
       <ul className="flex mt-6 space-x-8 prevent-default md:space-x-9 lg:space-x-10 md:mt-8 lg:mt-10">
-        {[].map(({ href, Icon }) => (
+        {[].map(({ href }) => (
           <li key={href}>
             <a
               className="block h-8 text-black prevent-default lg:h-9 dark:text-white"

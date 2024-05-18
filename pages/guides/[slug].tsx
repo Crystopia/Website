@@ -3,7 +3,7 @@ import { GetStaticProps, NextPage } from 'next';
 import { bundleMDX } from 'mdx-bundler';
 import { getMDXComponent } from 'mdx-bundler/client';
 import { join } from 'path';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import getReadingTime from 'reading-time';
 import { Head, PostImage } from '../../components';
 import { fetchDatabase } from '../../helpers/fetchDatabase';
@@ -70,18 +70,10 @@ export const getStaticProps: GetStaticProps<PostPageProps> = async ({
 // Client side React.js code
 const PostPage: NextPage<PostPageProps> = ({ post }) => {
   // Destructure post object
-  const { title, summary, slug, readingTime, sourceCode } = post;
-
-  // Increase views of post by 1
-  useEffect(() => {
-    fetchDatabase(`/views/${slug}`, {
-      method: 'PUT',
-      body: JSON.stringify({ '.sv': { increment: 1 } }),
-    });
-  }, [slug]);
+  const { title, summary, sourceCode } = post;
 
   // Create string for publication date
-  const publishedAt = useMemo(
+useMemo(
     () =>
       new Date(post.publishedAt).toLocaleDateString('en-US', {
         year: 'numeric',

@@ -3,7 +3,7 @@ import matter from 'gray-matter';
 import { join } from 'path';
 import { GuideFrontMatter } from '../types/guides';
 
-export async function getFrontMatterOfGuides(): Promise<[GuideFrontMatter]> {
+export async function getFrontMatterOfGuides(): Promise<GuideFrontMatter[]> {
   // Get blog post file names
   const fileNames = readdirSync(join(process.cwd(), 'deguides'));
 

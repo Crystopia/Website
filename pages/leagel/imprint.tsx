@@ -1,13 +1,10 @@
-import { GetStaticProps, NextPage } from 'next';
+import { NextPage } from 'next';
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
 import { Head } from '../../components';
 import Image from 'next/image';
 
 // Client side React.js code
-const HomePage: NextPage = ({}) => {
-  // Create search state
-
+const HomePage: NextPage = () => {
   return (
     <>
       <Head
@@ -98,9 +95,8 @@ const HomePage: NextPage = ({}) => {
         (OS platform), available athttp://ec.europa.eu/odr.
       </p>
       <br></br>
-     
       <ul className="flex mt-6 space-x-8 prevent-default md:space-x-9 lg:space-x-10 md:mt-8 lg:mt-10">
-        {[].map(({ href, Icon }) => (
+        {[].map(({ href }) => (
           <li key={href}>
             <a
               className="block h-8 text-black prevent-default lg:h-9 dark:text-white"

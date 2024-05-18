@@ -70,7 +70,7 @@ export const getStaticProps: GetStaticProps<PostPageProps> = async ({
 // Client side React.js code
 const PostPage: NextPage<PostPageProps> = ({ post }) => {
   // Destructure post object
-  const { title, summary, slug, readingTime, sourceCode } = post;
+  const { title, summary, slug, sourceCode } = post;
 
   // Increase views of post by 1
   useEffect(() => {
@@ -81,7 +81,7 @@ const PostPage: NextPage<PostPageProps> = ({ post }) => {
   }, [slug]);
 
   // Create string for publication date
-  const publishedAt = useMemo(
+  useMemo(
     () =>
       new Date(post.publishedAt).toLocaleDateString('en-US', {
         year: 'numeric',

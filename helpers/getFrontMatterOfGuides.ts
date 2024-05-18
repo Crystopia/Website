@@ -3,7 +3,7 @@ import matter from 'gray-matter';
 import { join } from 'path';
 import { GuideFrontMatter } from '../types/guides';
 
-export async function getFrontMatterOfGuides(): Promise<[GuideFrontMatter]> {
+export async function getFrontMatterOfGuides(): Promise<GuideFrontMatter[]> {
   // Get blog post file names
   const fileNames = readdirSync(join(process.cwd(), 'enguides'));
 
@@ -17,7 +17,7 @@ export async function getFrontMatterOfGuides(): Promise<[GuideFrontMatter]> {
         'title' | 'summary' | 'publishedAt'
       >;
       const slug = fileName.replace('.mdx', '');
-    
+
       return { ...frontMatter, slug };
     })
   );
@@ -27,6 +27,5 @@ export async function getFrontMatterOfGuides(): Promise<[GuideFrontMatter]> {
     a.publishedAt < b.publishedAt ? 1 : -1
   );
 
-  // Return sorted posts
-  return sortedGuides;
+ return sortedGuides;
 }

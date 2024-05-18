@@ -22,7 +22,7 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
 // Client side React.js code
 const HomePage: NextPage<HomePageProps> = ({ posts }) => {
   // Create search state
-  const [search, setSearch] = useState('');
+  const [search] = useState('');
 
   // Create filtered posts list
   const filteredPosts = useMemo(
@@ -52,7 +52,7 @@ const HomePage: NextPage<HomePageProps> = ({ posts }) => {
       <div><Link href={"/blog/de"}><b className='text-white hover:text-gray-400'>Go to German Blog</b></Link></div>
 
       <ul className="flex mt-6 space-x-8 prevent-default md:space-x-9 lg:space-x-10 md:mt-8 lg:mt-10">
-        {[].map(({ href, Icon }) => (
+        {[].map(({ href }) => (
           <li key={href}>
             <a
               className="block h-8 text-black prevent-default lg:h-9 dark:text-white"
