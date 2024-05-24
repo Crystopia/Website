@@ -24,7 +24,7 @@ const HomePage: NextPage = () => {
       </div>
       <br></br>
       <br></br>
-      <p> Imprint According to § 5 TMG </p>
+      <p> Imprint According to § 5 DDG </p>
       <br></br>
       <br></br>
       <div>
