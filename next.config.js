@@ -9,6 +9,10 @@ module.exports = {
       },
       {
         protocol: 'https',
+        hostname: 'visage.surgeplay.com',
+      },
+      {
+        protocol: 'https',
         hostname: 'icons.getbootstrap.com',
       },
     ],

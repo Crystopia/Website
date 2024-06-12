@@ -1,8 +1,9 @@
 import { GetStaticProps, NextPage } from 'next';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Head, Image } from '../components';
 import { getFrontMatterOfPosts } from '../helpers/getFrontMatterOfPosts';
 import { PostFrontMatter } from '../types';
+import { useState, useEffect } from 'react';
 interface HomePageProps {
   posts: PostFrontMatter[];
 }
@@ -39,6 +40,17 @@ const HomePage: NextPage<HomePageProps> = ({ posts }) => {
     }
   };
 
+  const [currentImage, setCurrentImage] = useState(0);
+  const images = ['/images/collage-1.png', '/images/collage-2.png'];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImage((currentImage + 1) % images.length);
+    }, 3000); // Change image every 3 seconds
+
+    return () => clearInterval(timer); // Clean up on component unmount
+  }, []);
+
   return (
     <>
       <Head
@@ -66,9 +78,16 @@ const HomePage: NextPage<HomePageProps> = ({ posts }) => {
       <p>
         We are Crystopia a Unique Place and Community to play Minecraft. You can
         Join our Discord to Chat with us or Join the Server in the Latest
-        Minecraft version on crystopia.net.
+        Minecraft version on crystopia.net. Here you can find some Images...
+        More Follow!
       </p>
       <br></br>
+
+      <Image
+        sizes="12"
+        src={images[currentImage]}
+        alt={`Collage ${currentImage + 1}`}
+      ></Image>
     </>
   );
 };

@@ -134,6 +134,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     }, 1000);
   };
 
+  const [navbarOpen, setNavbarOpen] = useState(false);
+
   return (
     <>
       {loading ? (
@@ -158,89 +160,139 @@ function MyApp({ Component, pageProps }: AppProps) {
           />
         </div>
 
-        <header className="fixed top-0 left-0 z-20 w-full p-4 dark:bg-black bg-opacity-60 dark:bg-opacity-60 backdrop-blur md:p-5 lg:py-6 lg:px-10">
-          <nav className="flex justify-between">
-            <nav className="navbar bg-body-tertiary ml-64">
-              <form className="container-fluid justify-content-start">
-                <Link href={'/'}>
-                  <button
-                    className="btn btn-outline-success me-2"
-                    type="button"
-                  >
-                    <b className="text-2xl text-white">Home</b>
-                  </button>
-                </Link>
+        <header className="fixed top-0 left-0 z-20 w-full p-4 md:p-5 lg:py-6 lg:px-10">
+          <button
+            className="lg:hidden"
+            onClick={() => setNavbarOpen(!navbarOpen)}
+          >
+            <svg
+              className="w-6 h-6 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16m-7 6h7"
+              ></path>
+            </svg>
+          </button>
 
-                <Link href={'/blog'}>
-                  <button
-                    className="btn btn-sm btn-outline-secondary ml-10"
-                    type="button"
-                  >
-                    <b className="text-2xl text-white">Blog</b>
+          <nav className={`lg:block ${navbarOpen ? 'block' : 'hidden'}`}>
+            <form className="container-fluid justify-content-start">
+              <Link href={'/'}>
+                <button className="btn btn-outline-success me-2" type="button">
+                  <b className="text-2xl text-white">Home</b>
+                </button>
+              </Link>
+
+              <Link href={'/blog'}>
+                <button
+                  className="btn btn-sm btn-outline-secondary ml-10"
+                  type="button"
+                >
+                  <b className="text-2xl text-white">Blog</b>
+                </button>
+              </Link>
+              <Link href={'/guides'}>
+                <button
+                  className="btn btn-sm btn-outline-secondary ml-10"
+                  type="button"
+                >
+                  <b className="text-2xl text-white">Guide</b>
+                </button>
+              </Link>
+              <Link href={'#'}>
+                <button
+                  className="btn btn-sm btn-outline-secondary ml-10"
+                  type="button"
+                >
+                  <b className="text-2xl text-white">Store</b>
+                </button>
+              </Link>
+            </form>
+
+            <ul
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                listStyle: 'none',
+              }}
+            >
+              <li>
+                <Link target="_blank" href={'https://discord.crystopia.net'}>
+                  <button type="button" className="btn to-blue-800 p-7">
+                    <Image
+                      width={50}
+                      height={50}
+                      alt="Discord"
+                      src={'/images/discord.png'}
+                    />
                   </button>
                 </Link>
-                <Link href={'/guides'}>
-                  <button
-                    className="btn btn-sm btn-outline-secondary ml-10"
-                    type="button"
-                  >
-                    <b className="text-2xl text-white">Guide</b>
-                  </button>
-                </Link>
-                <Link href={'#'}>
-                  <button
-                    className="btn btn-sm btn-outline-secondary ml-10"
-                    type="button"
-                  >
-                    <b className="text-2xl text-white">Store</b>
-                  </button>
-                </Link>
-              </form>
-            </nav>
-            <div></div>
-            <Link target="_blank" href={'https://discord.crystopia.net'}>
-              <button type="button" className="btn to-blue-800 ml-650px">
-                <Image
-                  width={50}
-                  height={50}
-                  alt="Discord"
-                  src={'/images/discord.png'}
-                />
-              </button>
-            </Link>
-            <p className="ml-2"></p>
-            <div className="relative">
-              <button
-                id="ipbtn"
-                onClick={handleCopy}
-                className="bg-#EAA21A px-4 py-2 rounded hover:bg-#FAC021"
-              >
-                <b className="text-center text-xl font-extrabold text-#7C2D12">
-                  CRYSTOPIA.NET
-                </b>
-              </button>
-              {showToast && (
-                <div className="bg-green-500 text-white px-4 py-2 rounded absolute mt-380%">
-                  Copied IP to clipboard!
-                </div>
-              )}
-            </div>
+              </li>
+
+              <li>
+                <button
+                  id="ipbtn"
+                  onClick={handleCopy}
+                  className="bg-#EAA21A px-4 py-2 rounded hover:bg-#FAC021 mt-7"
+                >
+                  <b className="text-center text-xl font-extrabold text-#7C2D12">
+                    CRYSTOPIA.NET
+                  </b>
+                </button>
+                {showToast && (
+                  <div className="bg-green-500 text-white px-4 py-2 rounded absolute mt-380%">
+                    Copied IP to clipboard!
+                  </div>
+                )}
+              </li>
+            </ul>
           </nav>
         </header>
-
         <main className="container min-h-screen pb-16 pt-28 md:pt-36 lg:pt-44 md:pb-24 lg:pb-32">
           <Component {...pageProps} />
         </main>
 
-        <footer className="px-4 pb-6 space-y-2 text-gray-500 md:flex md:justify-between md:space-y-0 md:px-5 md:pb-4 lg:px-10 lg:pb-5">
-          <div>&copy; Copyright {new Date().getFullYear()} Crystopia.net</div>
+        <footer className=" text-gray-600 px-4 py-6 md:flex md:justify-center md:items-center md:px-5 md:py-4 lg:px-10 lg:py-5">
+          <div className="card-body text-center">
+            <div>
+              We are in no way affiliated with or endorsed by Mojang, AB.
+            </div>
+            <div>
+              Crystopia Network, is a TNService!{' '}
+              <Link href={'mailto:support@crystopia.net'}>
+                support@crystopia.net
+              </Link>
+            </div>
 
-          <div>
-            <Link href={'/leagel/imprint'}>Imprint</Link> -{' '}
-            <Link href={'/leagel/terms'}>Terms of Service</Link> -{' '}
-            <Link href={'/leagel/privacy'}>Privacy</Link> -{' '}
-            <Link href={'/credits'}>Credits</Link> -{' '}
-            <Link href={'/team'}>Team</Link>{' '}
+            <div>
+              &copy; Copyright {new Date().getFullYear()} Crystopia.net{' '}
+              <Link href={'/leagel/imprint'} className="hover:text-yellow-300">
+                {' '}
+                Imprint
+              </Link>{' '}
+              -{' '}
+              <Link href={'/leagel/terms'} className="hover:text-yellow-300">
+                Terms of Service
+              </Link>{' '}
+              -{' '}
+              <Link href={'/leagel/privacy'} className="hover:text-yellow-300">
+                Privacy
+              </Link>{' '}
+              -{' '}
+              <Link href={'/credits'} className="hover:text-yellow-300">
+                Credits
+              </Link>{' '}
+              -{' '}
+              <Link href={'/team'} className="">
+                Team
+              </Link>{' '}
+            </div>
           </div>
         </footer>
       </div>

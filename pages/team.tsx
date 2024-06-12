@@ -1,94 +1,85 @@
-import { GetStaticProps, NextPage } from 'next';
-import { useState } from 'react';
-import { Head, Image } from '../components';
-import { getFrontMatterOfPosts } from '../helpers/getFrontMatterOfPosts';
-import { PostFrontMatter } from '../types';
+import React from 'react';
+import Head from 'next/head'; // Adjust if you're using a different <Head> component
+import Image from 'next/image';
 
 interface TeamMember {
   name: string;
-  imageUrl: string;
-  discordUrl: string;
-  role: string;
-  bio: string;
+  title: string;
+  description: string;
+  avatar: string;
+  bgColor: string; // Add this line to the interface
 }
 
-interface HomePageProps {
-  posts: PostFrontMatter[];
-}
-
-const teamMembers: TeamMember[] = [
-  {
-    name: 'tnsjesper',
-    imageUrl: '/images/mc.profiles/tnsjesper-mc.png',
-    discordUrl: 'https://discord.com/users/850470027026759690',
-    role: 'Owner',
-    bio: 'Founder of Crystopia.net. Developer and server manager. Organizes events and manages the community.',
-  },
-  {
-    name: 'Soulapollo',
-    imageUrl: '/images/mc.profiles/malte-mc.png',
-    discordUrl: 'https://discord.com/users/817118151534837820',
-    role: 'Owner',
-    bio: "Owner and Builder on Crystopia.net. Responsible for the server's design and aesthetics.",
-  },
-  {
-    name: 'Darkblue',
-    imageUrl: '/images/mc.profiles/Darkblue_DragonX-mc.png',
-    discordUrl: 'https://discord.com/users/817118151534837820',
-    role: 'Admin',
-    bio: 'Administrator responsible for server maintenance.',
-  },
-  {
-    name: 'Creeper',
-    imageUrl: '/images/mc.profiles/Creeper_9190-mc.png',
-    discordUrl: 'https://discord.com/users/526060580935565314',
-    role: 'Admin',
-    bio: 'Admin and Dev. Responsible for server development and maintenance.',
-  },
-  {
-    name: 'NrwPlayYT',
-    imageUrl: '/images/mc.profiles/NrwPlayYT-mc.png',
-    discordUrl: 'https://discord.com/users/926160716350767194',
-    role: 'Admin',
-    bio: 'Admin and Test Team Leader. Responsible for testing new features and updates.',
-  },
-  {
-    name: 'Jonas',
-    imageUrl: '/images/mc.profiles/einfxch_jonas-mc.png',
-    discordUrl: 'https://discord.com/users/1000129480750284941',
-    role: 'Moderator',
-    bio: 'Moderator ensuring fair play.',
-  },
-  {
-    name: 'Bruno',
-    imageUrl: '/images/mc.profiles/Bruno-mc.png',
-    discordUrl: 'https://discord.com/users/1059455303478939738',
-    role: 'Helper',
-    bio: 'Helper assisting new players.',
-  },
-  {
-    name: 'Moritz',
-    imageUrl: '/images/mc.profiles/mrmoritz_.png',
-    discordUrl: 'https://discord.com/users/901731707508654131',
-    role: 'Moderator',
-    bio: 'Moderatre the Server and Help the Players.',
-  },
-];
-
-export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
-  const posts = await getFrontMatterOfPosts();
-  return { props: { posts } };
-};
-
-const HomePage: NextPage<HomePageProps> = () => {
-  const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
+const TeamCard: React.FC = () => {
+  const teamMembers: TeamMember[] = [
+    {
+      name: 'Jesper',
+      title: 'OWNER',
+      description: `Hey there! I'm Jesper one of the Owner from Crystopia! I'm responsible for the server's development and the community. I'm always here to help you with any questions or problems you might have. I'm looking forward to seeing you on the server!`,
+      avatar: '/images/mc.profiles/tnsjesper.png',
+      bgColor: 'bg-red-500',
+    },
+    {
+      name: 'Malte',
+      title: 'OWNER',
+      description: `Oh Hello! I'm Malte, one of the Owners from Crystopia! I'm Building and managing the server with Jesper. You can always ask me for help if you need it. You can find me on the Discord Server`,
+      avatar: '/images/mc.profiles/soulapollo65074.png',
+      bgColor: 'bg-red-500',
+    },
+    {
+      name: 'Creeper',
+      title: 'ADMIN',
+      description: `I' Creeper... I'm one of the Admins from Crystopia! I'm moderating and administrating the server. If you have a question or needs help, you can ask me and I would help you. You can find me on the Minecraft and Discord Server. See you soon on the Minecraft and/or Discord Server`,
+      avatar: '/images/mc.profiles/Creeper_9190.png',
+      bgColor: 'bg-red-400',
+    },
+    {
+      name: 'Darkblue',
+      title: 'ADMIN',
+      description: `Hello there! I'm Erik one of the Admin from Crystopia! I'm moderating and administrating the server. If you have a question or needs help, you can ask me and I would help you. You can find me on the Minecraft and Discord Server. See you soon on the Minecraft and/or Discord Server`,
+      avatar: '/images/mc.profiles/Darkblue_DragonX.png',
+      bgColor: 'bg-red-400',
+    },
+    {
+      name: 'NrwPlay',
+      title: 'ADMIN',
+      description: `Admin of Crystopia! I'm always there for you if you have any questions or problems. I'm looking forward to seeing you on the server! Oh and I'm also responsible for the server System and the community.`,
+      avatar: '/images/mc.profiles/nrwplay.png',
+      bgColor: 'bg-red-400',
+    },
+    {
+      name: 'Moritz',
+      title: 'MOD',
+      description: ``,
+      avatar: '/images/mc.profiles/mrmoritz_.png',
+      bgColor: 'bg-blue-400',
+    },
+    {
+      name: 'Bruno',
+      title: 'SUPPORT',
+      description: `Oh yes I'm Bruno and I'm in the team of Crystopia! I'm helping the players ingame and in the Discord and im always there, if u have questions about the server. Cya online ;D!`,
+      avatar: '/images/mc.profiles/destruction_bee.png',
+      bgColor: 'bg-green-400',
+    },
+    {
+      name: 'Oezii',
+      title: 'SUPPORT',
+      description: `Wasup, I´m Oezii and in the team of Crystopia! I´m helping the players ingame and in the Discord and im always there, if u have questions about the server. Cya online ;D!`,
+      avatar: '/images/mc.profiles/oezii.png',
+      bgColor: 'bg-green-400',
+    },
+    // Add other team members here if necessary
+  ];
 
   return (
     <>
-      <Head
-        title="Team - Crystopia.net"
-        description="Unique Minecraft server with a focus on community and creativity. Join us today!"
-      />
+      <Head>
+        <title>Team - Crystopia.net</title>
+        <meta
+          name="description"
+          content="Unique Minecraft server with a focus on community and creativity. Join us today!"
+        />
+      </Head>
 
       <div className="flex items-center space-x-4 md:space-x-5 lg:space-x-6">
         <Image
@@ -96,82 +87,43 @@ const HomePage: NextPage<HomePageProps> = () => {
           src="/images/crystopia.png"
           alt="Crystopia.net"
           sizes="(max-width: 768px) 32px, (max-width: 1024px) 40px, 48px"
+          width={48}
+          height={48}
         />
         <h1>Crystopia.net | Team</h1>
       </div>
+      <br></br>
+      <br></br>
+      <br></br>
 
-      <div className="container mx-auto p-4 bg-black text-white">
-        {['Owner', 'Admin', 'Moderator', 'Helper'].map((role) => (
-          <div key={role}>
-            <h2 className="text-2xl font-semibold mt-6 mb-4">{role}</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {teamMembers
-                .filter((member) => member.role === role)
-                .map((member) => (
-                  <div
-                    key={member.name}
-                    className="p-4 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700"
-                    onClick={() => setSelectedMember(member)}
-                  >
-                    <Image
-                      src={member.imageUrl}
-                      className="w-28 h-28 rounded-full mx-auto"
-                      alt={member.name}
-                      sizes="(max-width: 768px) 64px, (max-width: 1024px) 72px, 80px"
-                    />
-                    <h3 className="text-center mt-2 font-semibold">
-                      {member.name}
-                    </h3>
-                  </div>
-                ))}
+      {/* Card Builder */}
+
+      <div className="bg-cream p-6 rounded-lg shadow-md max-w-2xl mx-auto text-center">
+        {teamMembers.map((member, index) => (
+          <div key={index} className="mt-6">
+            <div className="flex items-center justify-center gap-4 mb-4">
+              <h3 className="text-xl font-semibold">{member.name}</h3>
+              <span
+                className={`${member.bgColor} text-white px-3 py-1 rounded-full text-sm`}
+              >
+                {member.title}
+              </span>
+            </div>
+            <div className="flex items-center justify-center gap-6">
+              <Image
+                src={member.avatar}
+                alt={`${member.name} avatar`}
+                className="w-60 h-60 rounded-full"
+                width={20000}
+                height={10}
+              />
+              <p className="max-w-lg text-left">{member.description}</p>
             </div>
           </div>
         ))}
-
-        {selectedMember && (
-          <div
-            className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center"
-            onClick={() => setSelectedMember(null)}
-          >
-            <div
-              className="bg-gray-900 p-6 rounded-lg w-96 text-white"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="text-right">
-                <button
-                  className="text-gray-400 hover:text-gray-600"
-                  onClick={() => setSelectedMember(null)}
-                >
-                  &times;
-                </button>
-              </div>
-              <Image
-                src={selectedMember.imageUrl}
-                className="w-80 h-80 rounded-full mx-auto"
-                alt={selectedMember.name}
-                sizes="(max-width: 768px) 96px, (max-width: 1024px) 104px, 112px"
-              />
-              <h2 className="text-2xl font-bold text-center mt-4">
-                {selectedMember.name}
-              </h2>
-              <p className="text-center mt-2">{selectedMember.role}</p>
-              <p className="mt-4">{selectedMember.bio}</p>
-              <div className="text-center mt-4">
-                <a
-                  href={selectedMember.discordUrl}
-                  className="text-blue-400 hover:underline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Contact on Discord
-                </a>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </>
   );
 };
 
-export default HomePage;
+export default TeamCard;
