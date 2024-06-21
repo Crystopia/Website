@@ -25,8 +25,7 @@ export const GuidePreview: FC<GuideFrontMatter> = ({
       <div className="flex">
         <div>
           {isimage}
-          <h2 className="ml-5 text-lg leading-normal text-gray-800 dark:text-gray-200 md:text-xl lg:text-2xl md:leading-normal lg:leading-normal text-center">
-            {' '}
+          <h2 className="leading-normal text-gray-800 dark:text-gray-200 md:text-xl lg:text-2xl text-center">
             {title}
           </h2>
           <div className="ml-10 mt-4">{summary} </div>{' '}
