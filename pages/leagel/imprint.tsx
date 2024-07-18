@@ -28,9 +28,9 @@ const HomePage: NextPage = () => {
       <br></br>
       <br></br>
       <div>
-        <div>Leon Phu Wittke </div>
-        <div> Gladbacher Straße 218 </div>
-        <div>47805 Krefeld </div>
+        <div>Jesper Richert</div>
+        <div>Kiebitzreihe 3</div>
+        <div>25813 Husum</div>
         <div>Deutschland </div>
       </div>
       <br></br>

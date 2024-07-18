@@ -2,7 +2,6 @@ import { AppProps } from 'next/app';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useRef, useEffect, useState } from 'react';
-import { trackAnalyticsPageview } from '../helpers/trackAnalyticsPageview';
 import 'tailwindcss/tailwind.css';
 import '../styles/font.css';
 import '../styles/global.css';
@@ -36,13 +35,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [router.events]);
 
   useEffect(() => {
-    router.events.on('routeChangeComplete', trackAnalyticsPageview);
-    return () => {
-      router.events.off('routeChangeComplete', trackAnalyticsPageview);
-    };
-  }, [router.events]);
-
-  useEffect(() => {
     setTheme(
       window?.matchMedia('(prefers-color-scheme: dark)').matches
         ? 'dark'
@@ -57,85 +49,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       document.documentElement.classList.add('dark');
     }
   }, [theme]);
-
-  // Background gradient
-  //
-  // const updateBackground = () => {
-  //   const { scrollHeight } = document.documentElement;
-  //   const sectionHeight = 700;
-  //   const colors = ['#00A5FF', '#00FFC4', '#4500FF'];
-  //   const startSide = Math.round(Math.random());
-  //   const nextBackground = [];
-  //   for (let i = 0; i < scrollHeight / sectionHeight; i++) {
-  //     const left =
-  //       (i + startSide) % 2 ? 15 : 85 + Math.floor(Math.random() * 12 - 6);
-  //     const top = i * sectionHeight + sectionHeight / 2;
-  //     const color = colors[Math.floor(Math.random() * colors.length)];
-  //     nextBackground.push(
-  //       `radial-gradient(circle at ${left}% ${top}px, ${color}, ${color}00 500px)`
-  //     );
-  //   }
-  //   gradientElementRef.current!.style.background = nextBackground.join(', ');
-  // };
-
-  // useEffect(updateBackground, [router.asPath]);
-  // useEffect(() => window.addEventListener('resize', updateBackground), []);
-  //
-  // Background gradient
-
-  const setBackgroundToBlack = () => {
-    document.body.style.backgroundColor = '#000000';
-  };
-
-  useEffect(() => {
-    setBackgroundToBlack();
-  });
-
-  // mcstatus API
-  //
-  // const [playercount, setPlayercount] = useState('');
-  // const [maxplayercount, setMaxplayercount] = useState('');
-
-  // const printResult = async () => {
-  //   try {
-  //     const result = await axios.get(
-  //       'https://api.mcsrvstat.us/2/crystopia.net'
-  //     );
-  //     const onlinePlayers = result.data.players.online;
-  //     const maxplayercount = result.data.players.max;
-  //     setPlayercount(onlinePlayers);
-  //     setMaxplayercount(maxplayercount);
-  //   } catch (err) {
-  //     console.error('Failed to get result: ', err);
-  //   }
-  // };
-  // useEffect(() => {
-  //   printResult();
-  // }, []);
-  //
-  // mcstatus API
-
-  async () => {
-    try {
-      await navigator.clipboard.writeText('crystopia.net');
-      console.log('Text copied to clipboard');
-    } catch (err) {
-      console.error('Failed to copy text: ', err);
-    }
-  };
-
-  const [showToast, setShowToast] = useState(false);
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText('crystopia.net');
-    setShowToast(true);
-    setTimeout(() => {
-      setShowToast(false);
-    }, 1000);
-  };
-
   const [navbarOpen, setNavbarOpen] = useState(false);
-
   return (
     <>
       {loading ? (
@@ -160,13 +74,15 @@ function MyApp({ Component, pageProps }: AppProps) {
           />
         </div>
 
-        <header className="fixed top-0 left-0 z-20 w-full p-4 md:p-5 lg:py-6 lg:px-10">
+        {/* */}
+        <header className="fixed top-0 left-0 z-20 w-full p-4 flex justify-between items-center space-x-4 ">
+          {/* Toggle-Button nur auf Mobilgeräten sichtbar */}
           <button
-            className="lg:hidden"
+            className="z-30 md:hidden absolute top-0 right-0 m-4" // Button ist jetzt immer in der oberen rechten Ecke
             onClick={() => setNavbarOpen(!navbarOpen)}
           >
             <svg
-              className="w-6 h-6 text-white"
+              className="w-10 h-10 text-white"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -180,121 +96,185 @@ function MyApp({ Component, pageProps }: AppProps) {
               ></path>
             </svg>
           </button>
+          {/* Navigation immer sichtbar auf PC, verborgen auf Mobilgeräten, wenn navbarOpen false ist */}
+          <nav
+            className={`${
+              navbarOpen ? 'flex' : 'hidden'
+            } md:flex flex-col md:flex-row justify-center w-full space-x-4`}
+          >
+            <Link href={'/'}>
+              <button
+                className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 hover:scale-105 transition transform duration-300 ease-in-out"
+                type="button"
+              >
+                <Image
+                  className="h-5 w-5 mr-2"
+                  src={'/icons/home.png'}
+                  alt="home"
+                  width={1000}
+                  height={1000}
+                ></Image>{' '}
+                <b className="text-2xl text-white">Home</b>
+              </button>
+            </Link>
 
-          <nav className={`lg:block ${navbarOpen ? 'block' : 'hidden'}`}>
-            <form className="container-fluid justify-content-start">
-              <Link href={'/'}>
-                <button className="btn btn-outline-success me-2" type="button">
-                  <b className="text-2xl text-white">Home</b>
-                </button>
-              </Link>
-
-              <Link href={'/blog'}>
-                <button
-                  className="btn btn-sm btn-outline-secondary ml-10"
-                  type="button"
-                >
-                  <b className="text-2xl text-white">Blog</b>
-                </button>
-              </Link>
-              <Link href={'/guides'}>
-                <button
-                  className="btn btn-sm btn-outline-secondary ml-10"
-                  type="button"
-                >
-                  <b className="text-2xl text-white">Guide</b>
-                </button>
-              </Link>
-              <Link href={'#'}>
-                <button
-                  className="btn btn-sm btn-outline-secondary ml-10"
-                  type="button"
-                >
-                  <b className="text-2xl text-white">Store</b>
-                </button>
-              </Link>
-            </form>
-
-            <ul
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                listStyle: 'none',
-              }}
-            >
-              <li>
-                <Link target="_blank" href={'https://discord.crystopia.net'}>
-                  <button type="button" className="btn to-blue-800 p-7">
-                    <Image
-                      width={50}
-                      height={50}
-                      alt="Discord"
-                      src={'/images/discord.png'}
-                    />
-                  </button>
-                </Link>
-              </li>
-
-              <li>
-                <button
-                  id="ipbtn"
-                  onClick={handleCopy}
-                  className="bg-#EAA21A px-4 py-2 rounded hover:bg-#FAC021 mt-7"
-                >
-                  <b className="text-center text-xl font-extrabold text-#7C2D12">
-                    CRYSTOPIA.NET
-                  </b>
-                </button>
-                {showToast && (
-                  <div className="bg-green-500 text-white px-4 py-2 rounded absolute mt-380%">
-                    Copied IP to clipboard!
-                  </div>
-                )}
-              </li>
-            </ul>
+            <Link href={'/blog'}>
+              <button
+                className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 hover:scale-105 transition transform duration-300 ease-in-out"
+                type="button"
+              >
+                <Image
+                  className="h-5 w-5 mr-2"
+                  src={'/icons/blog.new.png'}
+                  alt="home"
+                  width={1000}
+                  height={1000}
+                ></Image>{' '}
+                <b className="text-2xl text-white">Blog</b>
+              </button>
+            </Link>
+            <Link href={'/guides'}>
+              <button
+                className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 hover:scale-105 transition transform duration-300 ease-in-out"
+                type="button"
+              >
+                <Image
+                  className="h-5 w-5 mr-2"
+                  src={'/icons/calendar.png'}
+                  alt="home"
+                  width={1000}
+                  height={1000}
+                ></Image>{' '}
+                <b className="text-2xl text-white">Guide</b>
+              </button>
+            </Link>
+            <Link href={'#'}>
+              <button
+                className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 hover:scale-105 transition transform duration-300 ease-in-out"
+                type="button"
+              >
+                {' '}
+                <Image
+                  className="h-5 w-5 mr-2"
+                  src={'/icons/store.png'}
+                  alt="home"
+                  width={1000}
+                  height={1000}
+                ></Image>{' '}
+                <b className="text-2xl text-white">Store</b>
+              </button>
+            </Link>
           </nav>
         </header>
+
+        {/*  */}
+
         <main className="container min-h-screen pb-16 pt-28 md:pt-36 lg:pt-44 md:pb-24 lg:pb-32">
           <Component {...pageProps} />
         </main>
 
-        <footer className=" text-gray-600 px-4 py-6 md:flex md:justify-center md:items-center md:px-5 md:py-4 lg:px-10 lg:py-5">
-          <div className="card-body text-center">
-            <div>
-              We are in no way affiliated with or endorsed by Mojang, AB.
-            </div>
-            <div>
-              Crystopia Network, is a TNService!{' '}
-              <Link href={'mailto:support@crystopia.net'}>
-                support@crystopia.net
-              </Link>
-            </div>
+        <>
+          <div className="flex justify-center">
+            <footer className="bg-gray-800 text-white rounded-lg shadow-xl flex flex-col sm:flex-row items-center justify-center p-4 sm:p-6">
+              <Image
+                src={'/images/Panda.png'}
+                alt="Crystopia Logo"
+                width={150} // Reduzierte Breite für mobile Geräte
+                height={150} // Reduzierte Höhe für mobile Geräte
+                className="mb-4 sm:mb-0 sm:mr-4" // Anpassen der Abstände für mobile Geräte
+              />
 
-            <div>
-              &copy; Copyright {new Date().getFullYear()} Crystopia.net{' '}
-              <Link href={'/leagel/imprint'} className="hover:text-yellow-300">
-                {' '}
-                Imprint
-              </Link>{' '}
-              -{' '}
-              <Link href={'/leagel/terms'} className="hover:text-yellow-300">
-                Terms of Service
-              </Link>{' '}
-              -{' '}
-              <Link href={'/leagel/privacy'} className="hover:text-yellow-300">
-                Privacy
-              </Link>{' '}
-              -{' '}
-              <Link href={'/credits'} className="hover:text-yellow-300">
-                Credits
-              </Link>{' '}
-              -{' '}
-              <Link href={'/team'} className="">
-                Team
-              </Link>{' '}
-            </div>
+              <div className="text-center text-xs sm:text-sm">
+                &copy; Copyright {new Date().getFullYear()} Crystopia.net
+                <br className="sm:hidden" />{' '}
+                {/* Br-Tag nur auf kleinen Bildschirmen anzeigen */}
+                <Link
+                  href={'/leagel/imprint'}
+                  className="hover:text-yellow-300"
+                >
+                  Imprint
+                </Link>{' '}
+                -{' '}
+                <Link
+                  href={'/leagel/terms'}
+                  className="hover:text-yellow-300 ml-2"
+                >
+                  Terms of Service
+                </Link>{' '}
+                -{' '}
+                <Link
+                  href={'/leagel/privacy'}
+                  className="hover:text-yellow-300"
+                >
+                  Privacy Policy
+                </Link>
+                <br />
+                We are in no way affiliated with or endorsed by Mojang, AB.
+                <div className="flex justify-center space-x-4 mt-4">
+                  <div className="p-3 border border-gray-400 rounded-full">
+                    <Link
+                      href="https://discord.crystopia.net"
+                      className="text-white hover:text-yellow-300"
+                      target="_blank"
+                    >
+                      <Image
+                        src={'/icons/discord.png'}
+                        alt="Discord"
+                        width={1000} // Reduzierte Größe für mobile Geräte
+                        height={1000} // Reduzierte Größe für mobile Geräte
+                      />
+                    </Link>
+                  </div>
+                  <div className="p-3 border border-gray-400 rounded-full">
+                    <button
+                      onClick={() =>
+                        navigator.clipboard.writeText('crystopia.net')
+                      }
+                    >
+                      <Image
+                        src={'/icons/copy-ip.png'}
+                        sizes="12"
+                        alt="home"
+                        width={1000}
+                        height={1000}
+                      ></Image>{' '}
+                    </button>
+                  </div>
+                  <div className="p-3 border border-gray-400 rounded-full">
+                    <Link
+                      href="https://twitter.com/CrystopiaNet"
+                      className="text-white hover:text-yellow-300"
+                      target="_blank"
+                    >
+                      <Image
+                        src={'/icons/twitter.png'}
+                        alt="home"
+                        width={1000}
+                        height={1000}
+                      />
+                    </Link>
+                  </div>
+                  <div className="p-3 border border-gray-400 rounded-full">
+                    <Link
+                      href="https://www.youtube.com/@CrystopiaNet"
+                      className="text-white hover:text-yellow-300"
+                      target="_blank"
+                    >
+                      <Image
+                        src={'/icons/youtube.png'}
+                        alt="home"
+                        width={1000}
+                        height={1000}
+                      />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </footer>
           </div>
-        </footer>
+        </>
+        <br></br>
+        <br></br>
       </div>
     </>
   );

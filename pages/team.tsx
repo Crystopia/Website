@@ -50,7 +50,8 @@ const TeamCard: React.FC = () => {
     {
       name: 'Moritz',
       title: 'MOD',
-      description: ``,
+      description: `Hello, I'm Moritz, Moderator at the Crystopia Minecraft Server. I would like to make this Server a better place by helping the community with questions etc. In my free time I'm developing applications and 3D printing stuff.
+`,
       avatar: '/images/mc.profiles/mrmoritz_.png',
       bgColor: 'bg-blue-400',
     },

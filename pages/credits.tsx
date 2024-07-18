@@ -12,7 +12,6 @@ const HomePage: NextPage = () => {
         title="Credits - Crystopia.net"
         description="Unique Minecraft server with a focus on community and creativity. Join us today!"
       />
-
       <div className="flex items-center space-x-4 md:space-x-5 lg:space-x-6">
         <Image
           className="w-8 h-8 rounded-full prevent-default md:w-10 lg:w-12 md:h-10 lg:h-12"
@@ -24,7 +23,6 @@ const HomePage: NextPage = () => {
         />
         <h1>Crystopia.net | Credits</h1>
       </div>
-
       <p>
         Thank you to all the contributors who have made Crystopia.net possible.
         We deeply appreciate your hard work, dedication, and creativity in
@@ -38,26 +36,32 @@ const HomePage: NextPage = () => {
         joy to so many players.
       </p>
 
-      <h4>Big Thanks to</h4>
-      <ul>
+      <h4 className="text-xl font-semibold text-gray-900 mt-8 mb-4">
+        Minecraft Server
+      </h4>
+      <ul className="list-disc pl-6">
+        <li>Hypixel.net</li>
         <li>originrealms.com</li>
-        <li>mccisland.net</li>
         <li>hibiscusmc.com</li>
-        <li>hypixel.net</li>
-        <li>itzg/minecraft-server</li>
+        <li>gommehd.net</li>
+        <li>mccisland</li>
+        <li>cytooxien.de</li>
+        <li>playlegend.net</li>
       </ul>
 
-      <ul className="flex mt-6 space-x-8 prevent-default md:space-x-9 lg:space-x-10 md:mt-8 lg:mt-10">
-        {[].map(({ href }) => (
-          <li key={href}>
-            <a
-              className="block h-8 text-black prevent-default lg:h-9 dark:text-white"
-              href={href}
-              target="_blank"
-              rel="noreferrer"
-            ></a>
-          </li>
-        ))}
+      <h4 className="text-xl font-semibold text-gray-900 mt-8 mb-4">
+        Tools and Software
+      </h4>
+      <ul className="list-disc pl-6">
+        <li>https://docker.com</li>
+        <li>https://github.com</li>
+        <li>https://discord.com</li>
+        <li>Bookstack</li>
+        <li>https://nginx.com</li>
+        <li>https://nodejs.org</li>
+        <li>https://reactjs.org</li>
+        <li>https://nextjs.org</li>
+        <li>https://tailwindcss.com</li>
       </ul>
     </>
   );

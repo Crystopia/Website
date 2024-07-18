@@ -25,23 +25,8 @@ class MyDocument extends Document {
             sizes="32x32"
             href="/favicon-32x32.png"
           />
-
-          <script
-            async
-            src={`https://www.googletagmanager.com/gtag/js?id=${analyticsTrackingId}`}
-          />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${analyticsTrackingId}');
-              `,
-            }}
-          />
         </Head>
-        <body className="dark:bg-black text-gray-700 dark:text-gray-300 bg-black">
+        <body className="text-gray-700 bg-gradient-to-b from-gray-700 via-gray-900 to-black">
           <Main />
           <NextScript />
         </body>
