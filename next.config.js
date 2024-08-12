@@ -1,4 +1,13 @@
 module.exports = {
+  async redirects() {
+    return [
+      {
+        source: '/guides',
+        destination: 'https://guides.crystopia.net',
+        permanent: true,
+      },
+    ]
+  },
   reactStrictMode: true,
   productionBrowserSourceMaps: false,
   images: {
