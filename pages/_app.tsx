@@ -133,7 +133,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 <b className="text-2xl text-white">Blog</b>
               </button>
             </Link>
-            <Link href={'/guides'}>
+            <Link href={'https://guides.crystopia.net'}>
               <button
                 className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 hover:scale-105 transition transform duration-300 ease-in-out"
                 type="button"
