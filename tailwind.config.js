@@ -19,7 +19,8 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ['Nunito Sans', ...fontFamily.sans],
+        inter: ['Inter'],
+        minecraftseven: ['MinecraaftSeven'],
       },
       margin: {
         '380%': '380%',

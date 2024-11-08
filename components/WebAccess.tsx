@@ -1,8 +1,12 @@
+import { config } from 'dotenv';
+
+config();
+
 export function httpGetAsync(
   url: string,
   callback: (response: string) => void
 ) {
-  const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+  const proxyUrl = process.env.NEXTPORXY_URL;
   const targetUrl = proxyUrl + url;
 
   const xmlHttp = new XMLHttpRequest();

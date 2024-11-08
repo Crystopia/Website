@@ -26,7 +26,7 @@ class MyDocument extends Document {
             href="/favicon-32x32.png"
           />
         </Head>
-        <body className="text-gray-700 bg-gradient-to-b from-gray-700 via-gray-900 to-black">
+        <body className="text-gray-700 bg-gradient-to-b from-gray-900 via-black to-black font-inter">
           <Main />
           <NextScript />
         </body>

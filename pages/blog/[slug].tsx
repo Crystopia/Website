@@ -1,138 +1,129 @@
-// import { readFileSync, readdirSync } from 'fs';
-// import { GetStaticProps, NextPage } from 'next';
-// import { bundleMDX } from 'mdx-bundler';
-// import { getMDXComponent } from 'mdx-bundler/client';
-// import { join } from 'path';
-// import { useMemo } from 'react';
-// import getReadingTime from 'reading-time';
-// import { Head } from '../../components';
-// import { fetchDatabase } from '../../helpers/fetchDatabase';
-// import { PostFrontMatter, Post } from '../../types';
+import { GetStaticProps, GetStaticPaths, NextPage } from 'next';
+import { useMemo } from 'react';
+import { bundleMDX } from 'mdx-bundler';
+import { getMDXComponent } from 'mdx-bundler/client';
+import Image from 'next/image';
 
-// // Build time Node.js code
-// export async function getStaticPaths() {
-//   // Get blog post file names
-//   const fileNames = readdirSync(join(process.cwd(), 'enposts'));
+// Define the types for the Post
+interface Post {
+  title: string;
+  slug: string;
+  image: string;
+  de: string;
+  en: string;
+  date: string;
+  lang: string;
+}
 
-//   // Retun path of every blog post
-//   return {
-//     paths: fileNames.map((fileName) => ({
-//       params: {
-//         slug: fileName.replace(/\.mdx/, ''),
-//       },
-//     })),
-//     fallback: false,
-//   };
-// }
+interface PostPageProps {
+  post: Post;
+  content: string;
+}
 
-// interface PostPageProps {
-//   post: Post;
-// }
+const PostPage: NextPage<PostPageProps> = ({ post, content }) => {
+  const { title, date, image } = post;
 
-// export const getStaticProps: GetStaticProps<PostPageProps> = async ({
-//   params,
-// }) => {
-//   // Get slug of post from params
-//   const slug = params!.slug as string;
+  const BlogPost = useMemo(() => getMDXComponent(content), [content]);
 
-//   // Read and bundle MDX source code
-//   const filePath = join(process.cwd(), 'enposts', `${slug}.mdx`);
-//   const mdxSource = readFileSync(filePath, 'utf8');
-//   const bundleResult = await bundleMDX({ source: mdxSource });
+  return (
+    <div className="container mx-auto p-4">
+      <div className="flex flex-col items-center">
+        <Image
+          src={image}
+          alt={title}
+          width={800}
+          height={400}
+          className="object-cover w-full rounded-lg"
+        />
+        <div className="flex items-center space-x-4 md:space-x-5 lg:space-x-6">
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
+            {title}
+          </h1>
+        </div>
+        <p className="text-sm text-gray-600 mt-2">{date}</p>
+      </div>
 
-//   // Create necessary post data for client
-//   const sourceCode = bundleResult.code;
-//   const frontMatter = bundleResult.frontmatter as Pick<
-//     PostFrontMatter,
-//     'title' | 'summary' | 'publishedAt' | 'tag' // Add 'tag' property
-//   >;
-//   const views = (await fetchDatabase<number>(`/views/${slug}`)) || 0;
-//   const readingTimeResult = getReadingTime(mdxSource);
-//   const wordCount = readingTimeResult.words;
-//   const readingTime = readingTimeResult.text;
+      <div className="mt-8">
+        <BlogPost />
+      </div>
+    </div>
+  );
+};
 
-//   // Return page props
-//   return {
-//     props: {
-//       post: {
-//         ...frontMatter,
-//         slug,
-//         views,
-//         wordCount,
-//         readingTime,
-//         sourceCode,
-//       },
-//     },
-//   };
-// };
+// Fetch paths for all blog posts dynamically
+export const getStaticPaths: GetStaticPaths = async () => {
+  // Fetch the list of blog posts from the GitHub repository
+  const postsResponse = await fetch(
+    'https://raw.githubusercontent.com/Crystopia/Content/main/website/blog/bloglist.json'
+  );
+  const posts: Post[] = await postsResponse.json();
 
-// // Client side React.js code
-// const PostPage: NextPage<PostPageProps> = ({ post }) => {
-//   // Destructure post object
-//   const { title, summary, sourceCode, tag } = post;
+  // Generate paths for each post in both English and German
+  const paths = posts.flatMap((post) => [
+    { params: { slug: `${post.slug}.en` } },
+    { params: { slug: `${post.slug}.de` } },
+    { params: { slug: `${post.slug}` } },
+  ]);
 
-//   // Create string for publication date
-//   const publishedAt = useMemo(
-//     () =>
-//       new Date(post.publishedAt).toLocaleDateString('en-US', {
-//         year: 'numeric',
-//         month: 'short',
-//         day: 'numeric',
-//       }),
-//     [post.publishedAt]
-//   );
+  return {
+    paths,
+    fallback: false, // Set to 'false' for static generation
+  };
+};
 
-//   // Convert source code to component
-//   const BlogPost = useMemo(() => getMDXComponent(sourceCode), [sourceCode]);
+// Fetch the blog post content and metadata based on slug
+export const getStaticProps: GetStaticProps<PostPageProps> = async ({
+  params,
+}) => {
+  const slug = Array.isArray(params?.slug)
+    ? params.slug[0]
+    : params?.slug || '';
 
-//   let tagColorClass = '';
-//   switch (tag) {
-//     case 'Update':
-//       tagColorClass = 'text-cyan-400';
-//       break;
-//     case 'Event':
-//       tagColorClass = 'text-green-400';
-//       break;
-//     default:
-//       tagColorClass = 'text-stone-600';
-//   }
+  const language = slug.endsWith('.de') ? 'de' : 'en';
+  const cleanSlug = slug.replace(`.${language}`, '');
 
-//   return (
-//     <>
-//       <Head title={`${title} | Crystopia.net`} description={`${summary}`} />
+  // Fetch post metadata from the blog list
+  const postResponse = await fetch(
+    `https://raw.githubusercontent.com/Crystopia/Content/main/website/blog/bloglist.json`
+  );
+  const posts: Post[] = await postResponse.json();
+  const post = posts.find((p) => p.slug === cleanSlug) || {
+    title: 'Not found',
+    slug,
+    image: '',
+    de: '',
+    en: '',
+    date: '',
+    lang: language,
+  };
 
-//       <article>
-//         <h1>{title}</h1>
-//         <div className="flex flex-col">
-//           <div className="mb-4 relative">
-//             <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
-//             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-//           </div>
-//           <div className="transform scale-100 group-hover:scale-95 transition-transform duration-300">
-//             <p className="text-gray-600 font-extrabol text-sm mb-2 font-semibold">
-//               <b>
-//                 {tag && (
-//                   <span
-//                     className={`inline-block py-1 d rounded-lg ${tagColorClass} mr-2`}
-//                   >
-//                     {tag}
-//                   </span>
-//                 )}
-//                 - {publishedAt}
-//               </b>
-//             </p>
-//           </div>
-//         </div>
+  const filePath = language == 'de' ? post.de : post.en;
 
-//         {/*
-//   Since the return type "null" was not added to the component types of
-//   "mdx-bundler", but it is included by default in the "FC" type of React,
-//   I cast PostImage to "any". In the future, this may be removed again.
-//   */}
-//         <BlogPost components={{ Image: PostImage as any }} />
-//       </article>
-//     </>
-//   );
-// };
+  // Fetch the content of the MDX file
+  let mdxContent = '';
+  try {
+    const response = await fetch(filePath);
+    mdxContent = await response.text();
+  } catch (error) {
+    console.error('Error fetching MDX content:', error);
+  }
 
-// export default PostPage;
+  // Bundle MDX content for rendering
+  const bundleResult = await bundleMDX({ source: mdxContent });
+  const content = bundleResult.code;
+
+  return {
+    props: {
+      post,
+      content,
+    },
+  };
+};
+
+export default PostPage;
