@@ -18,7 +18,7 @@ module.exports = {
       },
       {
         protocol: 'https',
-        hostname: 'i.pinimg.com',
+        hostname: '*',
       },
       {
         protocol: 'https',

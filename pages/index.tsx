@@ -1,37 +1,11 @@
 import { GetStaticProps, NextPage } from 'next';
 import { useMemo } from 'react';
 import { Head } from '../components';
-import { getFrontMatterOfPosts } from '../helpers/getFrontMatterOfPosts';
 import { PostFrontMatter } from '../types';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-interface HomePageProps {
-  posts: PostFrontMatter[];
-}
 
-// Build time Node.js code
-export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
-  // Create list with all blog post
-  const posts = await getFrontMatterOfPosts();
-
-  // Return page props
-  return { props: { posts } };
-};
-
-// Client side React.js code
-const HomePage: NextPage<HomePageProps> = ({ posts }) => {
-  // Create search state
-  const [search] = useState('');
-
-  // Create filtered posts list
-  useMemo(
-    () =>
-      posts.filter((post) =>
-        post.title.toLowerCase().includes(search.toLowerCase())
-      ),
-    [posts, search]
-  );
-
+const HomePage: NextPage = () => {
   async () => {
     try {
       await navigator.clipboard.writeText('crystopia.net');
@@ -43,7 +17,12 @@ const HomePage: NextPage<HomePageProps> = ({ posts }) => {
 
   const [currentImage, setCurrentImage] = useState(0);
   const [isChanging, setIsChanging] = useState(false);
-  const images = ['/showcase/1.png', '/showcase/2.png', '/showcase/3.png', '/showcase/4.png'];
+  const images = [
+    '/showcase/1.png',
+    '/showcase/2.png',
+    '/showcase/3.png',
+    '/showcase/4.png',
+  ];
   useEffect(() => {
     const intervalId = setInterval(() => {
       setIsChanging(true); // Start der Animation
@@ -139,7 +118,9 @@ const HomePage: NextPage<HomePageProps> = ({ posts }) => {
       </div>
 
       <div className="bg-gray-900 shadow-lg rounded-lg p-6 mt-8">
-        <h2 className="text-2xl font-bold mb-4">Our Story - Together we create</h2>
+        <h2 className="text-2xl font-bold mb-4">
+          Our Story - Together we create
+        </h2>
         <p className="text-gray- mb-6">
           Welcome to Crystopia. We are a unique Minecraft server with a focus on
           community and creativity. Our server is a place where you can build,
@@ -151,7 +132,7 @@ const HomePage: NextPage<HomePageProps> = ({ posts }) => {
         <div className="flex justify-center space-x-4">
           <button
             className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 hover:scale-105 transition transform duration-300 ease-in-out"
-            onClick={() => window.open('/team')}
+            onClick={() => window.open('/team', '_self')}
           >
             <Image
               className="h-6 w-6 mr-2"
