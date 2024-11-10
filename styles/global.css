@@ -1,27 +1,32 @@
-
-
 /* Typography */
 h1 {
   @apply text-2xl md:text-3xl lg:text-4xl font-extrabold;
 }
+
 h2 {
   @apply text-xl md:text-2xl lg:text-3xl;
 }
+
 h3 {
   @apply text-lg md:text-xl lg:text-2xl;
 }
+
 h4 {
   @apply text-base md:text-lg lg:text-xl;
 }
+
 :is(h1, h2, h3, h4) {
   @apply text-gray-800 dark:text-gray-200 leading-normal md:leading-normal lg:leading-normal;
 }
+
 :is(h2, h3, h4) {
   @apply font-bold;
 }
+
 p {
   @apply text-lg lg:text-xl text-gray-600 dark:text-gray-400 leading-relaxed lg:leading-relaxed;
 }
+
 strong {
   @apply text-gray-700 dark:text-gray-300 font-bold;
 }
@@ -45,12 +50,15 @@ a:not(.prevent-default) {
 ul:not(.prevent-default) {
   @apply list-[square];
 }
+
 ol:not(.prevent-default) {
   @apply list-decimal;
 }
+
 :is(ul, ol):not(.prevent-default) {
   @apply ml-5;
 }
+
 :is(ul, ol):not(.prevent-default) li {
   @apply pl-1 md:pl-2 text-lg lg:text-xl text-gray-600 dark:text-gray-400 leading-relaxed lg:leading-relaxed;
 }
@@ -66,31 +74,33 @@ hr {
 }
 
 /* Spacing */
-:is(main, article) > * + h2 {
+:is(main, article)>*+h2 {
   @apply mt-12 md:mt-16 lg:mt-20;
 }
-:is(main, article) > * + :is(h3, h4) {
+
+:is(main, article)>*+ :is(h3, h4) {
   @apply mt-10 md:mt-12 lg:mt-14;
 }
-:is(main, article) > :is(h2, h3, h4) + :is(h2, h3, h4) {
+
+:is(main, article)> :is(h2, h3, h4)+ :is(h2, h3, h4) {
   @apply mt-8 md:mt-10 lg:mt-12;
 }
-:is(main, article) > :is(img, video, iframe):not(.prevent-default) {
+
+:is(main, article)> :is(img, video, iframe):not(.prevent-default) {
   @apply my-6 md:my-8 lg:my-10;
 }
-:is(main, article)
-  > *
-  + :is(p, blockquote, img, ul, ol, pre):not(.prevent-default) {
+
+:is(main, article)>*+ :is(p, blockquote, img, ul, ol, pre):not(.prevent-default) {
   @apply mt-4 md:mt-6 lg:mt-8;
 }
-:is(main, article)
-  > :is(ul, ol):not(.prevent-default)
-  :is(li + li, li > :is(ul, ol)),
-:is(main, article) > blockquote > * + * {
+
+:is(main, article)> :is(ul, ol):not(.prevent-default) :is(li + li, li > :is(ul, ol)),
+:is(main, article)>blockquote>*+* {
   @apply mt-2 md:mt-3 lg:mt-4;
 }
-:is(main, article) > * + hr,
-:is(main, article) > hr + *:not(h2, h3, h4) {
+
+:is(main, article)>*+hr,
+:is(main, article)>hr+*:not(h2, h3, h4) {
   @apply mt-8 md:mt-10 lg:mt-12 !important;
 }
 
@@ -98,6 +108,7 @@ hr {
 * {
   -webkit-tap-highlight-color: transparent;
 }
+
 svg {
   @apply h-full;
 }

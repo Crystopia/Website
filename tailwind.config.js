@@ -20,7 +20,7 @@ module.exports = {
     extend: {
       fontFamily: {
         inter: ['Inter'],
-        minecraftseven: ['MinecraaftSeven'],
+        minecraftseven: ['MinecraftSeven'],
       },
       margin: {
         '380%': '380%',
@@ -30,6 +30,7 @@ module.exports = {
         '#EAA21A': '#EAA21A',
         '#FAC021': '#FAC021',
         '#7C2D12': '#7C2D12',
+        '#78D5F5': '#78D5F5',
       },
     },
   },

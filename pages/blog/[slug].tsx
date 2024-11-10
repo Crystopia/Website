@@ -1,8 +1,10 @@
 import { GetStaticProps, GetStaticPaths, NextPage } from 'next';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { bundleMDX } from 'mdx-bundler';
 import { getMDXComponent } from 'mdx-bundler/client';
 import Image from 'next/image';
+import { redirect, RedirectType } from 'next/navigation';
+import Head from 'next/head'; // Für dynamische Metadaten
 
 // Define the types for the Post
 interface Post {
@@ -12,7 +14,7 @@ interface Post {
   de: string;
   en: string;
   date: string;
-  lang: string;
+  description: string;
 }
 
 interface PostPageProps {
@@ -25,46 +27,73 @@ const PostPage: NextPage<PostPageProps> = ({ post, content }) => {
 
   const BlogPost = useMemo(() => getMDXComponent(content), [content]);
 
-  return (
-    <div className="container mx-auto p-4">
-      <div className="flex flex-col items-center">
-        <Image
-          src={image}
-          alt={title}
-          width={800}
-          height={400}
-          className="object-cover w-full rounded-lg"
-        />
-        <div className="flex items-center space-x-4 md:space-x-5 lg:space-x-6">
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
-            {title}
-          </h1>
-        </div>
-        <p className="text-sm text-gray-600 mt-2">{date}</p>
-      </div>
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const currentLang = navigator.language === 'de-DE' ? 'de' : 'en';
+      if (post.slug + '.' + currentLang !== location.href.split('/')[4]) {
+        window.location.href = `/blog/${post.slug}.${currentLang}`;
+      }
+    };
+    fetchPosts();
+  }, [post.slug]);
 
-      <div className="mt-8">
-        <BlogPost />
+  return (
+    <>
+      <Head>
+        <title>{post.title} - Crystopia</title>
+        <meta name="description" content={post.description} />
+        <meta property="og:image" content={post.image} />
+        <meta property="twitter:image" content={post.image} />
+        <meta property="og:title" content={post.title} />
+        <meta property="twitter:title" content={post.title} />
+        <meta property="og:description" content={post.description} />
+        <meta property="twitter:description" content={post.description} />
+        <meta property="og:type" content="article" />
+        <meta property="article:published_time" content={post.date} />
+        <meta property="article:author" content="Crystopia" />
+        <meta property="article:section" content="Minecraft" />
+        <meta property="article:tag" content="Minecraft" />
+        <meta property="article:tag" content="Server" />
+        <meta property="article:tag" content="Crystopia" />
+        <meta property="article:tag" content="Blog" />
+      </Head>
+      <div className="container mx-auto p-4">
+        <div className="flex flex-col items-center">
+          <div className="relative w-full">
+            <Image
+              src={image}
+              alt={title}
+              width={800}
+              height={400}
+              className="object-cover w-full rounded-lg"
+            />
+            <div className="absolute bottom-0 left-4 transform translate-y-1/2">
+              <div className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-300 px-3 py-1 rounded-t-lg">
+                {new Date(post.date).toLocaleDateString()}
+              </div>
+              <div className="w-0 h-4 bg-gray-200 dark:bg-gray-700"></div>
+            </div>
+          </div>
+          <div className="flex flex-col items-center mt-4">
+            <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
+              {title}
+            </h1>
+          </div>
+        </div>
+        <div className="mt-8">
+          <BlogPost />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
-// Fetch paths for all blog posts dynamically
 export const getStaticPaths: GetStaticPaths = async () => {
-  // Fetch the list of blog posts from the GitHub repository
   const postsResponse = await fetch(
     'https://raw.githubusercontent.com/Crystopia/Content/main/website/blog/bloglist.json'
   );
   const posts: Post[] = await postsResponse.json();
 
-  // Generate paths for each post in both English and German
   const paths = posts.flatMap((post) => [
     { params: { slug: `${post.slug}.en` } },
     { params: { slug: `${post.slug}.de` } },
@@ -73,22 +102,19 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths,
-    fallback: false, // Set to 'false' for static generation
+    fallback: false,
   };
 };
 
-// Fetch the blog post content and metadata based on slug
 export const getStaticProps: GetStaticProps<PostPageProps> = async ({
   params,
 }) => {
   const slug = Array.isArray(params?.slug)
     ? params.slug[0]
     : params?.slug || '';
-
   const language = slug.endsWith('.de') ? 'de' : 'en';
   const cleanSlug = slug.replace(`.${language}`, '');
 
-  // Fetch post metadata from the blog list
   const postResponse = await fetch(
     `https://raw.githubusercontent.com/Crystopia/Content/main/website/blog/bloglist.json`
   );
@@ -100,12 +126,11 @@ export const getStaticProps: GetStaticProps<PostPageProps> = async ({
     de: '',
     en: '',
     date: '',
-    lang: language,
+    description: '',
   };
 
-  const filePath = language == 'de' ? post.de : post.en;
+  const filePath = language === 'de' ? post.de : post.en;
 
-  // Fetch the content of the MDX file
   let mdxContent = '';
   try {
     const response = await fetch(filePath);
@@ -114,7 +139,6 @@ export const getStaticProps: GetStaticProps<PostPageProps> = async ({
     console.error('Error fetching MDX content:', error);
   }
 
-  // Bundle MDX content for rendering
   const bundleResult = await bundleMDX({ source: mdxContent });
   const content = bundleResult.code;
 

@@ -1,11 +1,11 @@
 import { GetStaticProps, NextPage } from 'next';
-import { useMemo } from 'react';
-import { Head } from '../components';
-import { PostFrontMatter } from '../types';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { httpGetAsync } from '../components/WebAccess';
 import Link from 'next/link';
+import { Slide, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Head from 'next/head';
 
 // Define the type for the post
 interface Post {
@@ -15,18 +15,9 @@ interface Post {
   file: string;
   date: string;
   lang: string;
-  // Add other fields as necessary
 }
 
 const HomePage: NextPage = () => {
-  async () => {
-    try {
-      await navigator.clipboard.writeText('crystopia.net');
-      console.log('Text copied to clipboard');
-    } catch (err) {
-      console.error('Failed to copy text: ', err);
-    }
-  };
   const [posts, setPosts] = useState<Post[]>([]);
   const [lang, setLang] = useState<string | undefined>(undefined);
 
@@ -37,7 +28,6 @@ const HomePage: NextPage = () => {
           'https://raw.githubusercontent.com/Crystopia/Content/refs/heads/main/website/blog/bloglist.json';
         httpGetAsync(url, (body) => {
           const fetchedPosts = JSON.parse(body);
-          // Sort posts by date
           fetchedPosts.sort(
             (a: Post, b: Post) =>
               new Date(b.date).getTime() - new Date(a.date).getTime()
@@ -45,14 +35,10 @@ const HomePage: NextPage = () => {
           setPosts(fetchedPosts);
         });
 
-        if (navigator.language === 'de-DE') {
-          setLang('.de');
-        } else {
-          setLang('.en');
-        }
+        setLang(navigator.language === 'de-DE' ? '.de' : '.en');
         console.log(navigator.language);
       } catch (error) {
-        console.error('Error fetching team data:', error);
+        console.error('Error fetching blog data:', error);
       }
     };
 
@@ -63,102 +49,70 @@ const HomePage: NextPage = () => {
 
   return (
     <>
-      <Head
-        title="Crystopia.net"
-        description="Unique Minecraft server with a focus on community and creativity. Join us today!"
+      {' '}
+      <ToastContainer
+        position="bottom-right"
+        autoClose={100}
+        hideProgressBar={true}
+        closeOnClick
+        pauseOnHover
+        theme="colored"
+        transition={Slide}
       />
-
-      <div className="flex items-center space-x-4 md:space-x-5 lg:space-x-6">
-        <Image
-          className="w-8 h-8 rounded-full prevent-default md:w-10 lg:w-12 md:h-10 lg:h-12"
-          src="/images/crystopia.png"
-          alt="Crystopia.net"
-          width={100}
-          height={100}
-          sizes="(max-width: 768px) 32px, (max-width: 1024px) 40px, 48px"
-        />
-        <h1 className="text-3xl">Crystopia.net | Minecraft Server</h1>
-      </div>
-      <br></br>
-      <div>
-        <p>
-          Hello an Welcome to our Website. Here you get Bog Post with Updates
-          and can Search in the Guides.
-        </p>
-
-        <br></br>
-
-        <p>
-          We are Crystopia a Unique Place and Community to play Minecraft. You
-          can Join our Discord to Chat with us or Join the Server in the Latest
-          Minecraft version on crystopia.net. Here you can find some Images...
-          More Follow!
-        </p>
-      </div>
-      <br></br>
-
-      <div className="flex justify-center space-x-4">
-        <button
-          className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 hover:scale-105 transition transform duration-300 ease-in-out"
-          onClick={() => window.open('https://discord.crystopia.net', '_blank')}
-        >
+      <Head>
+        <title>Crystopia.net</title>
+      </Head>
+      <div className="relative flex justify-center py-8">
+        <div className="absolute inset-0 flex justify-center ml-10 mr-10">
           <Image
-            className="h-8 w-8 mr-2"
-            src={'/icons/discord.png'}
-            alt="home"
-            width={1000}
-            height={1000}
-          ></Image>{' '}
-          <b>Discord</b>
-        </button>
-
-        {/* Copy IP Button */}
-        <button
-          className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 hover:scale-105 transition transform duration-300 ease-in-out"
-          onClick={() => navigator.clipboard.writeText('crystopia.net')}
-        >
+            src="/images/background.png"
+            alt="background"
+            layout="fill"
+            objectFit="cover"
+            className="rounded-lg shadow-lg"
+          />
+        </div>
+        <div className="relative z-10 flex justify-center">
           <Image
-            className="h-6 w-6 mr-2 "
-            src={'/icons/copy-ip.png'}
-            sizes="12"
-            alt="home"
-            width={1000}
-            height={1000}
-          ></Image>{' '}
-          <b>CRYSTOPIA.NET</b>
-        </button>
+            className="w-128 h-128 rounded-full prevent-default"
+            src="/images/crystopia.png"
+            alt="Crystopia.net"
+            sizes="(max-width: 768px) 512px, (max-width: 1024px) 640px, 768px"
+            width={768}
+            height={768}
+          />
+        </div>
       </div>
-
       <br></br>
       <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-
-      <div className="mt-8">
-        <h2 className="font-bold underline text-5xl text-center">
+      <br />
+      <section className="text-center py-16 px-8 ">
+        <h2
+          style={{ color: '#78D5F5' }}
+          className="font-bold text-5xl text-[#78D5F5]"
+        >
           Crystopia News
         </h2>
-        <br></br>
+        <p style={{ color: '#FFFFFF' }} className="text-gray-500 mt-4">
+          Our latest Updates and News from our Server
+        </p>
+
         {latestPost && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transform transition duration-500 ease-in-out hover:scale-105 hover:shadow-2xl hover:translate-y-1 mt-4">
-            <Link href={'/blog/' + latestPost.slug + lang}>
-              <div className="block cursor-pointer group p-4">
+          <div className="max-w-3xl mx-auto mt-8 p-6 rounded-lg shadow-lg transition-transform hover:scale-105 border-4 border-[#a59079] ">
+            <Link href={`/blog/${latestPost.slug}${lang}`}>
+              <div className="group cursor-pointer">
                 <Image
                   src={latestPost.image}
                   alt={latestPost.title}
                   width={500}
                   height={300}
-                  className="object-cover w-full h-64 rounded-t-lg transition duration-300 ease-in-out group-hover:scale-110"
+                  className="object-contain w-full h-60 rounded-md" // Ändere "object-cover" in "object-contain"
                 />
-                <div className="p-6">
-                  <h3 className="text-center text-2xl font-bold text-gray-800 dark:text-white transition duration-200 ease-in-out">
+                <div className="mt-6 text-center">
+                  <h3 className="text-2xl font-bold text-black">
                     {latestPost.title}
                   </h3>
-                  <p className="text-center text-xl text-gray-500 dark:text-gray-300 mt-2">
+                  <p className="text-gray-500 mt-2">
                     {new Date(latestPost.date).toLocaleDateString()}
                   </p>
                 </div>
@@ -166,69 +120,50 @@ const HomePage: NextPage = () => {
             </Link>
           </div>
         )}
-        <div className="text-center mt-8">
-          <button className="inline-flex items-center px-6 py-3 hover:transition hover:duration-200 hover:ease-in-out text-base font-medium rounded-md text-white bg-gradient-to-b from-blue-500 to-blue-800">
-            View all Blogs
-          </button>
-        </div>
-      </div>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-
-      <div className="bg-gradient-to-b from-gray-500 to-gray-00 shadow-lg rounded-lg p-6 mt-8">
-        <h2 className="text-2xl font-bold mb-4">
-          Our Story - Together we create
-        </h2>
-        <p className="text-gray- mb-6">
+      </section>
+      <section className="text-center py-16 px-8 ">
+        <h1>
+          <div>
+            <p style={{ color: '#78D5F5' }} className="text-5xl font-bold mb-6">
+              Our Story - Together we create
+            </p>
+          </div>
+        </h1>
+        <br></br>
+        <br></br>
+        <br></br>
+        <p
+          style={{ color: '#FFFFFF' }}
+          className="text-white max-w-3xl mx-auto"
+        >
           Welcome to Crystopia. We are a unique Minecraft server with a focus on
           community and creativity. Our server is a place where you can build,
-          explore, and make friends. We have a friendly and welcoming community
-          that is always looking for new players to join us. Whether you are a
-          seasoned Minecraft player or new to the game, we have something for
-          everyone. Come join us today and see what Crystopia has to offer!
+          explore, and make friends. Whether you are a seasoned Minecraft player
+          or new to the game, we have something for everyone. Come join us
+          today!
         </p>
-        <div className="flex justify-center space-x-4">
+
+        <div className="flex justify-center mt-8 space-x-4">
           <button
-            className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 hover:scale-105 transition transform duration-300 ease-in-out"
+            className="bg-[#78D5F5] h-20 w-70 flex items-center px-6 py-3 text-white rounded-md shadow transform transition hover:scale-105 "
+            onClick={() =>
+              window.open('https://crystopia.link/discord', '_blank')
+            }
+          >
+            <b className="text-4xl text-gray-600 font-minecraftseven">
+              Join our Discord
+            </b>
+          </button>{' '}
+          <button
+            className="bg-[#78D5F5] h-20 w-70 flex items-center px-6 py-3 text-white rounded-md shadow transform transition hover:scale-105 "
             onClick={() => window.open('/team', '_self')}
           >
-            <Image
-              className="h-6 w-6 mr-2"
-              src={'/icons/team.png'}
-              alt="home"
-              width={1000} // Angepasste Breite für das Icon
-              height={1000} // Angepasste Höhe für das Icon
-            ></Image>{' '}
-            <b>Team</b>
-          </button>
-          <button
-            className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 hover:scale-105 transition transform duration-300 ease-in-out"
-            onClick={() => window.open('/credits')}
-          >
-            <Image
-              className="h-6 w-6 mr-2"
-              src={'/icons/credits.png'}
-              alt="home"
-              width={1000} // Angepasste Breite für das Icon
-              height={1000} // Angepasste Höhe für das Icon
-            ></Image>{' '}
-            <b>Credits</b>
+            <b className="text-4xl text-gray-600 font-minecraftseven">
+              Meet our Team
+            </b>
           </button>{' '}
         </div>
-      </div>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
+      </section>
     </>
   );
 };

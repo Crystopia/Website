@@ -7,6 +7,7 @@ import '../styles/font.css';
 import '../styles/global.css';
 import '../styles/LoadingScreen.css';
 import Image from 'next/image';
+import { toast } from 'react-toastify';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
@@ -65,15 +66,16 @@ function MyApp({ Component, pageProps }: AppProps) {
         </div>
       ) : null}
       <div>
-        {/* Navbar mit klappbarem Button für mobile Geräte */}
-        <header className="fixed left-1/2 transform -translate-x-1/2 z-20 w-11/12 md:w-2/3 bg-gray-800 rounded-b-lg shadow-lg p-4">
+        <header className="mt-7 fixed left-1/2 transform -translate-x-1/2 z-20 w-11/12 md:w-2/3 bg-gray-800 rounded-lg shadow-lg p-6">
+          {' '}
+          {/* Erhöhtes Padding */}
           <div className="flex justify-between items-center">
             <button
               className="text-white md:hidden"
               onClick={() => setNavbarOpen(!navbarOpen)}
             >
               <svg
-                className="w-6 h-6"
+                className="w-8 h-8"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -91,7 +93,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <nav
             className={`${
               navbarOpen ? 'block' : 'hidden'
-            } mt-2 md:mt-0 md:flex md:justify-around items-center`}
+            } mt-4 md:mt-0 md:flex md:justify-around items-center`}
           >
             {[
               { href: '/', label: 'Home', icon: '/icons/home.png' },
@@ -101,35 +103,55 @@ function MyApp({ Component, pageProps }: AppProps) {
                 label: 'Guide',
                 icon: '/icons/calendar.png',
               },
-              { href: '#', label: 'Store', icon: '/icons/store.png' },
             ].map((item) => (
               <Link href={item.href} key={item.label}>
-                <button className="flex items-center px-4 py-2 text-white bg-gray-700 rounded-md hover:bg-gray-600 transition transform duration-300 ease-in-out mt-2 md:mt-0">
+                <button
+                  style={{ color: '#78D5F5' }}
+                  className="font-minecraftseven inline-flex items-center px-4 py-3 border border-transparent text-lg font-medium rounded-md text-white hover:bg-gray-700 hover:scale-105 transition transform duration-300 ease-in-out"
+                >
                   <Image
-                    className="h-5 w-5 mr-2"
+                    className="h-6 w-6 mr-3 mt-3"
                     src={item.icon}
                     alt={item.label}
                     width={1000}
                     height={1000}
                   />
-                  <span className="text-lg">{item.label}</span>
+                  <span className="text-4xl">{item.label}</span>
                 </button>
               </Link>
             ))}
+            <button
+              className="font-minecraftseven inline-flex items-center px-5 py-3 border border-transparent text-lg font-medium rounded-md text-white  hover:bg-gray-700 hover:scale-105 transition transform duration-300 ease-in-out"
+              onClick={() => {
+                toast('Copied IP to clipboard', {
+                  type: 'success',
+                });
+                navigator.clipboard.writeText('crystopia.net');
+              }}
+            >
+              <Image
+                className="h-7 w-7 mr-3  mt-3"
+                src={'/icons/copy-ip.png'}
+                sizes="12"
+                alt="home"
+                width={1000}
+                height={1000}
+              ></Image>{' '}
+              <b style={{ color: '#78D5F5' }} className="text-3xl">
+                CRYSTOPIA.NET
+              </b>
+            </button>
           </nav>
         </header>
 
-        <main className="container min-h-screen pb-16 pt-28 md:pt-36 lg:pt-44 md:pb-24 lg:pb-32">
+        <main className="min-h-screen pb-16 pt-28 md:pt-36 lg:pt-44 md:pb-24 lg:pb-32">
           <Component {...pageProps} />
         </main>
-
-        <div className="flex justify-center">
-          <footer className="bg-gradient-to-b from-gray-700 to-gray-900 rounded-lg shadow-lg w-full max-w-3xl p-6">
+        <div className="flex justify-center ">
+          <footer className="rounded-lg shadow-lg w-full max-w-3xl p-6 ">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
-                <div className="flex items-center space-x-2 bg-gray-400 text-gray-600 px-3 py-1 rounded-lg font-bold">
-                  <h6>crystopia.net</h6>
-                </div>
+                <div className="flex items-center space-x-2 px-3 py-1 rounded-lg font-bold"></div>
               </div>
 
               <div className="flex items-center space-x-4 text-yellow-900">
@@ -164,15 +186,36 @@ function MyApp({ Component, pageProps }: AppProps) {
               </div>
             </div>
 
-            <div className="mt-4 text-center text-sm text-yellow-900">
+            <div className="mt-4 text-center text-sm text-black">
               <p className="font-semibold">
                 Crystopia.net, A Nexocrew Solution
               </p>
               <p>We are in no way affiliated with or endorsed by Mojang, AB.</p>
             </div>
+            <div
+              style={{ color: '#78D5F5' }}
+              className="ml-56 p-1 mr-5 inline-flex justify-center space-x-4"
+            >
+              <Link className="text-center ml-1 p-1 mr-5" href="/legal/imprint">
+                <p style={{ color: '#78D5F5' }}>Imprint</p>
+              </Link>
+              <Link
+                style={{ color: '#78D5F5' }}
+                className="text-center ml-1 p-1 mr-5"
+                href="/legal/privacy"
+              >
+                <p style={{ color: '#78D5F5' }}>Privacy</p>
+              </Link>
+              <Link
+                style={{ color: '#78D5F5' }}
+                className="text-[#78D5F5] text-center ml-1 p-1 mr-5"
+                href="/legal/terms"
+              >
+                <p style={{ color: '#78D5F5' }}>Terms</p>
+              </Link>
+            </div>
           </footer>
         </div>
-
         <br />
         <br />
       </div>
