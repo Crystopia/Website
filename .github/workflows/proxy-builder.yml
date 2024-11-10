@@ -8,7 +8,7 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
   schedule:
-    - cron: "0 0 * * 1"
+    - cron: '0 0 * * 1'
   push:
     branches:
       - master
@@ -16,14 +16,12 @@ env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 jobs:
   push:
-    name: "Proxy Builder"
+    name: 'Proxy Builder'
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
       id-token: write
-    strategy:
-      fail-fast: false
 
     steps:
       - uses: actions/checkout@v4
