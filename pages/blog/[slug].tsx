@@ -68,9 +68,9 @@ const PostPage: NextPage<PostPageProps> = ({ post, content }) => {
               className="object-cover w-full rounded-lg"
             />
             <div className="absolute bottom-0 left-4 transform translate-y-1/2">
-              <div className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-300 px-3 py-1 rounded-t-lg">
+              {/* <div className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-300 px-3 py-1 rounded-t-lg">
                 {new Date(post.date).toLocaleDateString()}
-              </div>
+              </div> */}
               <div className="w-0 h-4 bg-gray-200 dark:bg-gray-700"></div>
             </div>
           </div>

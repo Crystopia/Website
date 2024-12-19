@@ -8,7 +8,7 @@
     "dev": "next dev",
     "proxy": "node proxy.js",
     "lint": "next lint",
-    "build": "next build && next export && node ./scripts/resizeImages.js",
+    "build": "next build",
     "serve": "firebase serve",
     "deploy": "firebase deploy"
   },
