@@ -46,7 +46,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     { href: '/', label: 'Home', icon: '/icons/home.png' },
     { href: '/blog', label: 'Blog', icon: '/icons/blog.new.png' },
     {
-      href: 'https://guides.crystopia.net',
+      href: '/guide',
       label: 'Guide',
       icon: '/icons/calendar.png',
     },

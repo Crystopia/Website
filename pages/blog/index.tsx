@@ -1,8 +1,9 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 interface Post {
   title: string;
@@ -72,43 +73,50 @@ const HomePage: NextPage = () => {
         </header>
 
         {/* Grid */}
-        <section className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {posts.map((post) => (
-            <article
-              key={post.slug}
-              className="relative rounded-2xl shadow-lg overflow-hidden bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:shadow-2xl transition-shadow duration-300 w-full h-full group"
-            >
-              <Link
-                href={`/blog/${post.slug}${lang}`}
-                className="block group"
-                aria-label={`Zum Blogbeitrag: ${post.title}`}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="w-full"
+        >
+          <section className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {posts.map((post) => (
+              <article
+                key={post.slug}
+                className="relative rounded-2xl shadow-lg overflow-hidden bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:shadow-2xl transition-shadow duration-300 w-full h-full group"
               >
-                <div className="relative w-full h-48 sm:h-56 md:h-48 overflow-hidden rounded-t-2xl">
-                  <Image
-                    src={post.image}
-                    alt={post.title}
-                    width={1000}
-                    height={1000}
-                    className="group-hover:scale-105 transition-transform duration-500 ease-in-out object-cover rounded-t-2xl w-full h-full"
-                    priority={false}
-                  />
-                </div>
+                <Link
+                  href={`/blog/${post.slug}${lang}`}
+                  className="block group"
+                  aria-label={`Zum Blogbeitrag: ${post.title}`}
+                >
+                  <div className="relative w-full h-48 sm:h-56 md:h-48 overflow-hidden rounded-t-2xl">
+                    <Image
+                      src={post.image}
+                      alt={post.title}
+                      width={1000}
+                      height={1000}
+                      className="group-hover:scale-105 transition-transform duration-500 ease-in-out object-cover rounded-t-2xl w-full h-full"
+                      priority={false}
+                    />
+                  </div>
 
-                <div className="p-5">
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors duration-300">
-                    {post.title}
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-3">
-                    {post.description}
-                  </p>
-                </div>
-              </Link>
-              <time className="absolute top-4 right-4 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 px-3 py-1 rounded-full text-xs font-medium shadow-sm">
-                {new Date(post.date).toLocaleDateString()}
-              </time>
-            </article>
-          ))}
-        </section>
+                  <div className="p-5">
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors duration-300">
+                      {post.title}
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-3">
+                      {post.description}
+                    </p>
+                  </div>
+                </Link>
+                <time className="absolute top-4 right-4 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 px-3 py-1 rounded-full text-xs font-medium shadow-sm">
+                  {new Date(post.date).toLocaleDateString()}
+                </time>
+              </article>
+            ))}
+          </section>
+        </motion.div>
       </main>
     </>
   );

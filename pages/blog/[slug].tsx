@@ -4,6 +4,7 @@ import { bundleMDX } from 'mdx-bundler';
 import { getMDXComponent } from 'mdx-bundler/client';
 import Image from 'next/image';
 import Head from 'next/head';
+import { motion } from 'framer-motion';
 
 interface Post {
   title: string;
@@ -53,36 +54,43 @@ const PostPage: NextPage<PostPageProps> = ({ post, content }) => {
         <meta property="article:tag" content="Blog" />
       </Head>
 
-      <main>
-        <div className="max-w-4xl mx-auto p-6 md:p-12">
-          <div className="relative w-full h-52 overflow-hidden rounded-t-2xl">
-            <Image
-              src={post.image}
-              alt={post.title}
-              layout="fill"
-              objectFit="cover"
-              className="group-hover:scale-105 transition-transform duration-500 ease-in-out"
-            />
-            <div className="absolute bottom-6 left-6 text-zinc-800 z-10">
-              <p className="text-3xl md:text-5xl font-extrabold drop-shadow-lg text-zinc-900">
-                {title}
-              </p>
-              <time
-                dateTime={date}
-                className="block mt-1 text-sm md:text-base opacity-80 drop-shadow"
-              >
-                {new Date(date).toLocaleDateString(undefined, {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-              </time>
+      <motion.div
+        className="max-w-3xl mx-auto px-4 py-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <main>
+          <div className="max-w-4xl mx-auto p-6 md:p-12">
+            <div className="relative w-full h-52 overflow-hidden rounded-t-2xl">
+              <Image
+                src={post.image}
+                alt={post.title}
+                layout="fill"
+                objectFit="cover"
+                className="group-hover:scale-105 transition-transform duration-500 ease-in-out"
+              />
+              <div className="absolute bottom-6 left-6 text-zinc-800 z-10">
+                <p className="text-3xl md:text-5xl font-extrabold drop-shadow-lg text-zinc-900">
+                  {title}
+                </p>
+                <time
+                  dateTime={date}
+                  className="block mt-1 text-sm md:text-base opacity-80 drop-shadow"
+                >
+                  {new Date(date).toLocaleDateString(undefined, {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </time>
+              </div>
             </div>
-          </div>
 
-          <BlogPost />
-        </div>
-      </main>
+            <BlogPost />
+          </div>
+        </main>
+      </motion.div>
     </>
   );
 };
