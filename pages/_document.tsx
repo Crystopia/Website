@@ -5,7 +5,6 @@ import Document, {
   Main,
   NextScript,
 } from 'next/document';
-import { analyticsTrackingId } from '../config';
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -16,17 +15,38 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <meta name="robots" content="follow, index" />
+          {/* Meta Tags */}
+          <meta charSet="UTF-8" />
+          <meta name="robots" content="index, follow" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
+          <meta name="theme-color" content="#0e0e0e" />
+
+          {/* Favicons */}
           <link rel="icon" href="/favicon.ico" />
-          <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico" />
           <link
             rel="icon"
             type="image/png"
             sizes="32x32"
             href="/favicon-32x32.png"
           />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+          />
+
+          {/* Optional Fonts */}
+          <link
+            href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+            rel="stylesheet"
+          />
         </Head>
-        <body className="bg-black font-inter">
+
+        <body className="bg-[#0e0e0e] text-white font-minecraftseven antialiased">
           <Main />
           <NextScript />
         </body>

@@ -1,13 +1,12 @@
-import { GetStaticProps, NextPage } from 'next';
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
-import { httpGetAsync } from '../components/WebAccess';
-import Link from 'next/link';
-import { Slide, ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// pages/index.tsx
+import { NextPage } from 'next';
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
+import Image from 'next/image';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { httpGetAsync } from '../components/WebAccess';
 
-// Define the type for the post
 interface Post {
   title: string;
   slug: string;
@@ -19,151 +18,173 @@ interface Post {
 
 const HomePage: NextPage = () => {
   const [posts, setPosts] = useState<Post[]>([]);
-  const [lang, setLang] = useState<string | undefined>(undefined);
+  const [lang, setLang] = useState<string>('.en');
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const url =
-          'https://raw.githubusercontent.com/Crystopia/Content/refs/heads/main/website/blog/bloglist.json';
-        httpGetAsync(url, (body) => {
-          const fetchedPosts = JSON.parse(body);
-          fetchedPosts.sort(
-            (a: Post, b: Post) =>
-              new Date(b.date).getTime() - new Date(a.date).getTime()
-          );
-          setPosts(fetchedPosts);
-        });
+    async function fetchPosts() {
+      const url =
+        'https://raw.githubusercontent.com/Crystopia/Content/refs/heads/main/website/blog/bloglist.json';
 
-        setLang(navigator.language === 'de-DE' ? '.de' : '.en');
-        console.log(navigator.language);
-      } catch (error) {
-        console.error('Error fetching blog data:', error);
+      const response = await fetch(url);
+
+      if (navigator.language === 'de-DE') setLang('.de');
+      else setLang('.en');
+      console.log('Browser language:', navigator.language);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-    };
 
+      const data: Post[] = await response.json();
+      setPosts(data);
+    }
     fetchPosts();
   }, []);
 
-  const latestPost = posts[0];
+  const latestPost = posts.length > 0 ? posts[0] : null;
 
   return (
     <>
-      {' '}
-      <ToastContainer
-        position="bottom-right"
-        autoClose={100}
-        hideProgressBar={true}
-        closeOnClick
-        pauseOnHover
-        theme="colored"
-        transition={Slide}
-      />
       <Head>
-        <title>Crystopia.net</title>
+        <title>Crystopia – A Minecraft Universe</title>
+        <meta
+          name="description"
+          content="Explore, build, and dream in Crystopia."
+        />
       </Head>
-      <div className="relative flex justify-center py-8">
-        <div className="absolute inset-0 flex justify-center ml-10 mr-10">
-          <Image
-            src="/images/background.png"
-            alt="background"
-            layout="fill"
-            objectFit="cover"
-            className="rounded-lg shadow-lg"
-          />
-        </div>
-        <div className="relative z-10 flex justify-center">
-          <Image
-            className="w-128 h-128 rounded-full prevent-default"
-            src="/images/crystopia.png"
-            alt="Crystopia.net"
-            sizes="(max-width: 768px) 512px, (max-width: 1024px) 640px, 768px"
-            width={768}
-            height={768}
-          />
-        </div>
-      </div>
-      <br></br>
-      <br></br>
-      <br />
-      <section className="text-center py-16 px-8 ">
-        <h2
-          style={{ color: '#78D5F5' }}
-          className="font-bold text-5xl text-[#78D5F5]"
+      <main className="min-h-screen text-white">
+        {/* HERO SECTION */}
+        <section
+          className="bg-cover bg-center h-screen relative"
+          style={{ backgroundImage: 'url(/images/background.png)' }}
         >
-          Crystopia News
-        </h2>
-        <p style={{ color: '#FFFFFF' }} className="text-gray-500 mt-4">
-          Our latest Updates and News from our Server
-        </p>
+          {/* Schwarzes Overlay */}
+          <div className="absolute inset-0 bg-opacity-60"></div>
 
-        {latestPost && (
-          <div className="max-w-3xl mx-auto mt-8 p-6 rounded-lg shadow-lg transition-transform hover:scale-105 border-4 border-[#a59079] ">
-            <Link href={`/blog/${latestPost.slug}${lang}`}>
-              <div className="group cursor-pointer">
-                <Image
-                  src={latestPost.image}
-                  alt={latestPost.title}
-                  width={500}
-                  height={300}
-                  className="object-contain w-full h-60 rounded-md" // Ändere "object-cover" in "object-contain"
-                />
-                <div className="mt-6 text-center">
-                  <h3 className="text-2xl font-bold text-black">
-                    {latestPost.title}
-                  </h3>
-                  <p className="text-gray-500 mt-2">
-                    {new Date(latestPost.date).toLocaleDateString()}
-                  </p>
-                </div>
-              </div>
+          {/* Inhalt */}
+          <div className="container mx-auto flex flex-col items-center justify-center h-full relative z-10 text-center px-4">
+            <motion.h1
+              className="text-5xl md:text-7xl font-minecraftseven text-[#78D5F5]"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              Welcome to Crystopia
+            </motion.h1>
+
+            <p className="text-lg md:text-xl text-gray-300 mt-4 max-w-2xl">
+              A Minecraft universe where creativity knows no bounds.
+            </p>
+
+            <Link href="/blog" className="mt-6">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                className="px-6 py-3 bg-[#78D5F5] text-black font-bold rounded-lg shadow-lg transition-transform duration-300"
+              >
+                Read Our Blog
+              </motion.button>
             </Link>
           </div>
-        )}
-      </section>
-      <section className="text-center py-16 px-8 ">
-        <h1>
-          <div>
-            <p style={{ color: '#78D5F5' }} className="text-5xl font-bold mb-6">
-              Our Story - Together we create
-            </p>
-          </div>
-        </h1>
-        <br></br>
-        <br></br>
-        <br></br>
-        <p
-          style={{ color: '#FFFFFF' }}
-          className="text-white max-w-3xl mx-auto"
-        >
-          Welcome to Crystopia. We are a unique Minecraft server with a focus on
-          community and creativity. Our server is a place where you can build,
-          explore, and make friends. Whether you are a seasoned Minecraft player
-          or new to the game, we have something for everyone. Come join us
-          today!
-        </p>
+        </section>
 
-        <div className="flex justify-center mt-8 space-x-4">
-          <button
-            className="bg-[#78D5F5] h-20 w-70 flex items-center px-6 py-3 text-white rounded-md shadow transform transition hover:scale-105 "
-            onClick={() =>
-              window.open('https://crystopia.link/discord', '_blank')
-            }
-          >
-            <b className="text-4xl text-gray-600 font-minecraftseven">
-              Join our Discord
-            </b>
-          </button>{' '}
-          <button
-            className="bg-[#78D5F5] h-20 w-70 flex items-center px-6 py-3 text-white rounded-md shadow transform transition hover:scale-105 "
-            onClick={() => window.open('/team', '_self')}
-          >
-            <b className="text-4xl text-gray-600 font-minecraftseven">
-              Meet our Team
-            </b>
-          </button>{' '}
-        </div>
-      </section>
+        {/* LATEST POST */}
+        <section className="bg-[#0d0d0d] py-20 px-6 text-white">
+          <div className="max-w-6xl mx-auto text-center">
+            <motion.h2
+              className="text-4xl md:text-5xl font-minecraftseven text-[#78D5F5]"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              Latest Update
+            </motion.h2>
+            <p className="text-gray-400 mt-4 mb-10">
+              The newest news from the Crystopia world.
+            </p>
+
+            {latestPost && (
+              <Link href={`/blog/${latestPost.slug}${lang}`}>
+                <motion.div
+                  whileHover={{ scale: 1.03 }}
+                  className="mx-auto max-w-3xl bg-[#1a1a1a] border border-[#78D5F5] rounded-2xl overflow-hidden shadow-lg cursor-pointer"
+                >
+                  <Image
+                    src={latestPost.image}
+                    alt={latestPost.title}
+                    width={800}
+                    height={400}
+                    className="w-full h-60 object-cover"
+                  />
+                  <div className="p-6 text-left">
+                    <h3 className="text-2xl font-bold text-white">
+                      {latestPost.title}
+                    </h3>
+                    <p className="text-sm text-gray-400 mt-1">
+                      {new Date(latestPost.date).toLocaleDateString()}
+                    </p>
+                  </div>
+                </motion.div>
+              </Link>
+            )}
+          </div>
+        </section>
+
+        {/* ABOUT CRYSTOPIA */}
+        <section className="bg-[#121212] py-24 px-6 text-white">
+          <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <Image
+                src="https://i.imgur.com/CWTL0Y8.png"
+                alt="Community"
+                width={600}
+                height={400}
+                className="rounded-2xl shadow-xl object-cover"
+              />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-4xl font-minecraftseven text-[#78D5F5] mb-6">
+                What is Crystopia?
+              </h2>
+              <p className="text-gray-300 text-lg leading-relaxed">
+                Crystopia is a unique Minecraft experience built around
+                creativity, community and collaboration. Whether you're into
+                architecture, redstone engineering or exploring beautiful
+                landscapes – you'll find your place here.
+              </p>
+              <p className="text-gray-400 mt-4">
+                Join the growing community and leave your mark.
+              </p>
+
+              <Link href="/blog" className="mt-6 inline-block">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  className="px-6 py-3 bg-[#78D5F5] text-black font-bold rounded-lg shadow-lg transition-transform duration-300"
+                >
+                  Read Our Blog
+                </motion.button>
+              </Link>
+              <Link href="/discord" className="ml-4 inline-block">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  className="px-6 py-3 bg-[#1a1a1a] border border-[#78D5F5] text-[#78D5F5] font-bold rounded-lg shadow-lg transition-transform duration-300"
+                >
+                  Join Discord
+                </motion.button>
+              </Link>
+            </motion.div>
+          </div>
+        </section>
+      </main>
     </>
   );
 };

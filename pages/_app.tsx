@@ -2,29 +2,24 @@ import { AppProps } from 'next/app';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useRef, useEffect, useState } from 'react';
+import Image from 'next/image';
+import { toast } from 'react-toastify';
+
 import 'tailwindcss/tailwind.css';
 import '../styles/font.css';
 import '../styles/global.css';
 import '../styles/LoadingScreen.css';
-import Image from 'next/image';
-import { toast } from 'react-toastify';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
-  const gradientElementRef = useRef<HTMLDivElement>(null);
-  const opacityElementRef = useRef<HTMLDivElement>(null);
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [navbarOpen, setNavbarOpen] = useState(false);
 
   useEffect(() => {
-    const handleRouteChangeStart = () => {
-      setLoading(true);
-    };
+    const handleRouteChangeStart = () => setLoading(true);
+    const handleRouteChangeComplete = () => setLoading(false);
 
-    const handleRouteChangeComplete = () => {
-      setLoading(false);
-    };
     router.events.on('routeChangeStart', handleRouteChangeStart);
     router.events.on('routeChangeComplete', handleRouteChangeComplete);
     router.events.on('routeChangeError', handleRouteChangeComplete);
@@ -37,24 +32,29 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [router.events]);
 
   useEffect(() => {
-    setTheme(
-      window?.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark'
-        : 'dark'
-    );
+    const prefersDark = window.matchMedia(
+      '(prefers-color-scheme: dark)'
+    ).matches;
+    setTheme(prefersDark ? 'dark' : 'dark'); // Immer dark, optional fallback
   }, []);
 
   useEffect(() => {
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.add('dark');
-    }
-  }, [theme]);
+    document.documentElement.classList.add('dark');
+  }, []);
+
+  const navItems = [
+    { href: '/', label: 'Home', icon: '/icons/home.png' },
+    { href: '/blog', label: 'Blog', icon: '/icons/blog.new.png' },
+    {
+      href: 'https://guides.crystopia.net',
+      label: 'Guide',
+      icon: '/icons/calendar.png',
+    },
+  ];
 
   return (
     <>
-      {loading ? (
+      {loading && (
         <div className="loading-screen">
           <Image
             src="/images/grass.png"
@@ -64,11 +64,11 @@ function MyApp({ Component, pageProps }: AppProps) {
             className="animate-spin h-auto grayscale max-w-9"
           />
         </div>
-      ) : null}
+      )}
+
       <div>
-        <header className="mt-7 fixed left-1/2 transform -translate-x-1/2 z-20 w-11/12 md:w-2/3 bg-gray-800 rounded-lg shadow-lg p-6">
-          {' '}
-          {/* Erhöhtes Padding */}
+        {/* HEADER */}
+        <header className="fixed left-1/2 transform -translate-x-1/2 z-20 w-11/12 md:w-2/3 bg-gray-800 rounded-lg shadow-lg p-6 mt-7">
           <div className="flex justify-between items-center">
             <button
               className="text-white md:hidden"
@@ -90,53 +90,46 @@ function MyApp({ Component, pageProps }: AppProps) {
               </svg>
             </button>
           </div>
+
+          {/* NAVIGATION */}
           <nav
             className={`${
               navbarOpen ? 'block' : 'hidden'
             } mt-4 md:mt-0 md:flex md:justify-around items-center`}
           >
-            {[
-              { href: '/', label: 'Home', icon: '/icons/home.png' },
-              { href: '/blog', label: 'Blog', icon: '/icons/blog.new.png' },
-              {
-                href: 'https://guides.crystopia.net',
-                label: 'Guide',
-                icon: '/icons/calendar.png',
-              },
-            ].map((item) => (
-              <Link href={item.href} key={item.label}>
+            {navItems.map(({ href, label, icon }) => (
+              <Link href={href} key={label}>
                 <button
+                  className="font-minecraftseven inline-flex items-center px-4 py-3 text-lg font-medium rounded-md text-white hover:bg-gray-700 hover:scale-105 transition transform duration-300 ease-in-out"
                   style={{ color: '#78D5F5' }}
-                  className="font-minecraftseven inline-flex items-center px-4 py-3 border border-transparent text-lg font-medium rounded-md text-white hover:bg-gray-700 hover:scale-105 transition transform duration-300 ease-in-out"
                 >
                   <Image
+                    src={icon}
+                    alt={label}
+                    width={24}
+                    height={24}
                     className="h-6 w-6 mr-3 mt-3"
-                    src={item.icon}
-                    alt={item.label}
-                    width={1000}
-                    height={1000}
                   />
-                  <span className="text-4xl">{item.label}</span>
+                  <span className="text-4xl">{label}</span>
                 </button>
               </Link>
             ))}
+
+            {/* Copy-IP Button */}
             <button
-              className="font-minecraftseven inline-flex items-center px-5 py-3 border border-transparent text-lg font-medium rounded-md text-white  hover:bg-gray-700 hover:scale-105 transition transform duration-300 ease-in-out"
+              className="font-minecraftseven inline-flex items-center px-5 py-3 text-lg font-medium rounded-md text-white hover:bg-gray-700 hover:scale-105 transition transform duration-300 ease-in-out"
               onClick={() => {
-                toast('Copied IP to clipboard', {
-                  type: 'success',
-                });
+                toast('Copied IP to clipboard', { type: 'success' });
                 navigator.clipboard.writeText('crystopia.net');
               }}
             >
               <Image
-                className="h-7 w-7 mr-3  mt-3"
-                src={'/icons/copy-ip.png'}
-                sizes="12"
-                alt="home"
-                width={1000}
-                height={1000}
-              ></Image>{' '}
+                src="/icons/copy-ip.png"
+                alt="Copy IP"
+                width={28}
+                height={28}
+                className="h-7 w-7 mr-3 mt-3"
+              />
               <b style={{ color: '#78D5F5' }} className="text-3xl">
                 CRYSTOPIA.NET
               </b>
@@ -144,78 +137,48 @@ function MyApp({ Component, pageProps }: AppProps) {
           </nav>
         </header>
 
+        {/* MAIN */}
         <main className="min-h-screen pb-16 pt-28 md:pt-36 lg:pt-44 md:pb-24 lg:pb-32">
           <Component {...pageProps} />
         </main>
-        <div className="flex justify-center ">
-          <footer className="rounded-lg shadow-lg w-full max-w-3xl p-6 ">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <div className="flex items-center space-x-2 px-3 py-1 rounded-lg font-bold"></div>
-              </div>
 
-              <div className="flex items-center space-x-4 text-yellow-900">
-                <Link href="https://discord.crystopia.net" target="_blank">
-                  <Image
-                    src={'/icons/discord.png'}
-                    alt="Discord"
-                    width={20}
-                    height={20}
-                  />
-                </Link>
-                <Link href="https://twitter.com/CrystopiaNet" target="_blank">
-                  <Image
-                    src={'/icons/twitter.png'}
-                    alt="Twitter"
-                    width={20}
-                    height={20}
-                  />
-                </Link>
-
-                <Link
-                  href="https://www.youtube.com/@CrystopiaNet"
-                  target="_blank"
-                >
-                  <Image
-                    src={'/icons/youtube.png'}
-                    alt="YouTube"
-                    width={20}
-                    height={20}
-                  />
-                </Link>
-              </div>
+        {/* FOOTER */}
+        <footer className="rounded-lg shadow-lg w-full max-w-3xl p-6 mx-auto">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center space-x-4 text-yellow-900">
+              <Link href="https://discord.crystopia.net" target="_blank">
+                <Image
+                  src="/icons/discord.png"
+                  alt="Discord"
+                  width={20}
+                  height={20}
+                />
+              </Link>
+              <Link
+                href="https://www.youtube.com/@CrystopiaNet"
+                target="_blank"
+              >
+                <Image
+                  src="/icons/youtube.png"
+                  alt="YouTube"
+                  width={20}
+                  height={20}
+                />
+              </Link>
             </div>
 
-            <div className="mt-4 text-center text-sm text-black">
-              <p className="font-semibold">
-                Crystopia.net, A Nexocrew Solution
-              </p>
+            <div className="text-center text-sm text-black mt-2 md:mt-0">
+              <p className="font-semibold">Crystopia.net © 2024-2025</p>
               <p>We are in no way affiliated with or endorsed by Mojang, AB.</p>
             </div>
-            <div
-              style={{ color: '#78D5F5' }}
-              className="ml-56 p-1 mr-5 inline-flex justify-center space-x-4"
-            >
-              <Link className="text-center ml-1 p-1 mr-5" href="/legal/imprint">
-                <p style={{ color: '#78D5F5' }}>Imprint</p>
-              </Link>
-              <Link
-                style={{ color: '#78D5F5' }}
-                className="text-center ml-1 p-1 mr-5"
-                href="/legal/privacy"
-              >
-                <p style={{ color: '#78D5F5' }}>Privacy</p>
-              </Link>
-              <Link
-                style={{ color: '#78D5F5' }}
-                className="text-[#78D5F5] text-center ml-1 p-1 mr-5"
-                href="/legal/terms"
-              >
-                <p style={{ color: '#78D5F5' }}>Terms</p>
-              </Link>
-            </div>
-          </footer>
-        </div>
+          </div>
+
+          <div className="mt-4 flex justify-center space-x-6 text-[#78D5F5] text-sm font-medium">
+            <Link href="/legal/imprint">Imprint</Link>
+            <Link href="/legal/privacy">Privacy</Link>
+            <Link href="/legal/terms">Terms</Link>
+          </div>
+        </footer>
         <br />
         <br />
       </div>

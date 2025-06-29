@@ -17,6 +17,7 @@
     "bootstrap": "^5.3.3",
     "cors-anywhere": "^0.4.4",
     "dotenv": "^16.4.5",
+    "framer-motion": "^12.19.2",
     "gray-matter": "^4.0.3",
     "mdx-bundler": "^9.2.1",
     "next": "^13.2.4",

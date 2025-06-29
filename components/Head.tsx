@@ -1,7 +1,6 @@
 import NextHead from 'next/head';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
-import { websiteUrl } from '../config';
 
 interface HeadProps {
   title: string;
@@ -16,8 +15,6 @@ export const Head: FC<HeadProps> = ({ title, description, image }) => {
     <NextHead>
       <title>{title}</title>
       <meta name="description" content={description} />
-      <meta property="og:url" content={`${websiteUrl}${router.asPath}`} />
-      <link rel="canonical" href={`${websiteUrl}${router.asPath}`} />
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content="Crystopia.net" />
       <meta property="og:description" content={description} />

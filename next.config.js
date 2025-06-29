@@ -10,9 +10,6 @@ module.exports = {
       },
     ];
   },
-  env: {
-    NEXTPORXY_URL: process.env.PORXY_URL,
-  },
   reactStrictMode: true,
   productionBrowserSourceMaps: false,
   images: {

@@ -1,12 +1,10 @@
 import { GetStaticProps, GetStaticPaths, NextPage } from 'next';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { bundleMDX } from 'mdx-bundler';
 import { getMDXComponent } from 'mdx-bundler/client';
 import Image from 'next/image';
-import { redirect, RedirectType } from 'next/navigation';
-import Head from 'next/head'; // Für dynamische Metadaten
+import Head from 'next/head';
 
-// Define the types for the Post
 interface Post {
   title: string;
   slug: string;
@@ -23,33 +21,30 @@ interface PostPageProps {
 }
 
 const PostPage: NextPage<PostPageProps> = ({ post, content }) => {
-  const { title, date, image } = post;
+  const { title, image, description, date, slug } = post;
 
   const BlogPost = useMemo(() => getMDXComponent(content), [content]);
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      const currentLang = navigator.language === 'de-DE' ? 'de' : 'en';
-      if (post.slug + '.' + currentLang !== location.href.split('/')[4]) {
-        window.location.href = `/blog/${post.slug}.${currentLang}`;
-      }
-    };
-    fetchPosts();
-  }, [post.slug]);
+    const currentLang = navigator.language === 'de-DE' ? 'de' : 'en';
+    if (slug + '.' + currentLang !== location.href.split('/')[4]) {
+      window.location.href = `/blog/${slug}.${currentLang}`;
+    }
+  }, [slug]);
 
   return (
     <>
       <Head>
-        <title>{post.title} - Crystopia</title>
-        <meta name="description" content={post.description} />
-        <meta property="og:image" content={post.image} />
-        <meta property="twitter:image" content={post.image} />
-        <meta property="og:title" content={post.title} />
-        <meta property="twitter:title" content={post.title} />
-        <meta property="og:description" content={post.description} />
-        <meta property="twitter:description" content={post.description} />
+        <title>{title} - Crystopia</title>
+        <meta name="description" content={description} />
+        <meta property="og:image" content={image} />
+        <meta property="twitter:image" content={image} />
+        <meta property="og:title" content={title} />
+        <meta property="twitter:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="twitter:description" content={description} />
         <meta property="og:type" content="article" />
-        <meta property="article:published_time" content={post.date} />
+        <meta property="article:published_time" content={date} />
         <meta property="article:author" content="Crystopia" />
         <meta property="article:section" content="Minecraft" />
         <meta property="article:tag" content="Minecraft" />
@@ -57,33 +52,37 @@ const PostPage: NextPage<PostPageProps> = ({ post, content }) => {
         <meta property="article:tag" content="Crystopia" />
         <meta property="article:tag" content="Blog" />
       </Head>
-      <div className="container mx-auto p-4">
-        <div className="flex flex-col items-center">
-          <div className="relative w-full">
+
+      <main>
+        <div className="max-w-4xl mx-auto p-6 md:p-12">
+          <div className="relative w-full h-52 overflow-hidden rounded-t-2xl">
             <Image
-              src={image}
-              alt={title}
-              width={800}
-              height={400}
-              className="object-cover w-full rounded-lg"
+              src={post.image}
+              alt={post.title}
+              layout="fill"
+              objectFit="cover"
+              className="group-hover:scale-105 transition-transform duration-500 ease-in-out"
             />
-            <div className="absolute bottom-0 left-4 transform translate-y-1/2">
-              {/* <div className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-300 px-3 py-1 rounded-t-lg">
-                {new Date(post.date).toLocaleDateString()}
-              </div> */}
-              <div className="w-0 h-4 bg-gray-200 dark:bg-gray-700"></div>
+            <div className="absolute bottom-6 left-6 text-zinc-800 z-10">
+              <p className="text-3xl md:text-5xl font-extrabold drop-shadow-lg text-zinc-900">
+                {title}
+              </p>
+              <time
+                dateTime={date}
+                className="block mt-1 text-sm md:text-base opacity-80 drop-shadow"
+              >
+                {new Date(date).toLocaleDateString(undefined, {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </time>
             </div>
           </div>
-          <div className="flex flex-col items-center mt-4">
-            <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
-              {title}
-            </h1>
-          </div>
-        </div>
-        <div className="mt-8">
+
           <BlogPost />
         </div>
-      </div>
+      </main>
     </>
   );
 };
@@ -112,11 +111,12 @@ export const getStaticProps: GetStaticProps<PostPageProps> = async ({
   const slug = Array.isArray(params?.slug)
     ? params.slug[0]
     : params?.slug || '';
+
   const language = slug.endsWith('.de') ? 'de' : 'en';
   const cleanSlug = slug.replace(`.${language}`, '');
 
   const postResponse = await fetch(
-    `https://raw.githubusercontent.com/Crystopia/Content/main/website/blog/bloglist.json`
+    'https://raw.githubusercontent.com/Crystopia/Content/main/website/blog/bloglist.json'
   );
   const posts: Post[] = await postResponse.json();
   const post = posts.find((p) => p.slug === cleanSlug) || {
