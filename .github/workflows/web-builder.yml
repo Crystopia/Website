@@ -52,4 +52,4 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: |
-            ghcr.io/crystopia/website-web:${{ steps.package-version.outputs.current-version}}
+            ghcr.io/crystopia/crystopia-website:${{ steps.package-version.outputs.current-version}}
