@@ -1,19 +1,17 @@
-FROM oven/bun:slim
+# Use official Bun image
+FROM oven/bun:1.1
 
 # Set working directory
 WORKDIR /app
 
-# Copy only package files first to cache dependencies
-COPY bun.lock package.json ./
+# Copy files
+COPY . .
 
 # Install dependencies
 RUN bun install
 
-# Copy rest of the app
-COPY . .
-
-# Build the app (force build to ignore cache if needed)
-RUN bun run build --force
+# Build the Next.js app
+RUN bun run build
 
 # Start the app
-CMD ["bun", "run", "start"]
+CMD ["bun", "start"]
