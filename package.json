@@ -10,7 +10,8 @@
     "lint": "next lint",
     "build": "next build",
     "serve": "firebase serve",
-    "deploy": "firebase deploy"
+    "deploy": "firebase deploy",
+    "start": "next start"
   },
   "dependencies": {
     "axios": "^1.6.8",
