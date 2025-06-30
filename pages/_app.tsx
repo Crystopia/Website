@@ -71,7 +71,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </div>
       )}
 
-      <div>
+      <div className='font-minecraftseven'>
         {/* HEADER */}
         <header className="fixed left-1/2 transform -translate-x-1/2 z-20 w-11/12 md:w-2/3 bg-gray-800 rounded-lg shadow-lg p-6 mt-7">
           <div className="flex justify-between items-center">
