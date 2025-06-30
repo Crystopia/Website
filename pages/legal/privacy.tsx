@@ -29,7 +29,7 @@ const HomePage: NextPage = () => {
         </p>
 
         <section className="mt-8">
-          <h2 className="font-minecraftseven text-3xl font-semibold mb-4">
+          <h2 className=" text-3xl font-semibold mb-4">
             Data
           </h2>
           <p>
@@ -49,7 +49,7 @@ const HomePage: NextPage = () => {
         </section>
 
         <section className="mt-8">
-          <h2 className="font-minecraftseven text-3xl font-semibold mb-4">
+          <h2 className=" text-3xl font-semibold mb-4">
             Cookies
           </h2>
           <p>

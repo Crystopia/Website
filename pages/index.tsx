@@ -51,7 +51,7 @@ const HomePage: NextPage = () => {
           content="Explore, build, and dream in Crystopia."
         />
       </Head>
-      <main className="min-h-screen text-white">
+      <main className="min-h-screen text-white ">
         {/* HERO SECTION */}
         <section
           className="bg-cover bg-center h-screen relative"
@@ -63,7 +63,7 @@ const HomePage: NextPage = () => {
           {/* Inhalt */}
           <div className="container mx-auto flex flex-col items-center justify-center h-full relative z-10 text-center px-4">
             <motion.h1
-              className="text-5xl md:text-7xl font-minecraftseven text-[#78D5F5]"
+              className="text-5xl md:text-7xl text-[#78D5F5]"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -90,7 +90,7 @@ const HomePage: NextPage = () => {
         <section className="bg-[#0d0d0d] py-20 px-6 text-white">
           <div className="max-w-6xl mx-auto text-center">
             <motion.h2
-              className="text-4xl md:text-5xl font-minecraftseven text-[#78D5F5]"
+              className="text-4xl md:text-5xl  text-[#78D5F5]"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
@@ -152,7 +152,7 @@ const HomePage: NextPage = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl font-minecraftseven text-[#78D5F5] mb-6">
+              <h2 className="text-4xl  text-[#78D5F5] mb-6">
                 What is Crystopia?
               </h2>
               <p className="text-gray-300 text-lg leading-relaxed">

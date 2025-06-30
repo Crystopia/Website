@@ -66,7 +66,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </div>
       )}
 
-      <div>
+      <div className="">
         {/* HEADER */}
         <header className="fixed left-1/2 transform -translate-x-1/2 z-20 w-11/12 md:w-2/3 bg-gray-800 rounded-lg shadow-lg p-6 mt-7">
           <div className="flex justify-between items-center">
@@ -95,44 +95,47 @@ function MyApp({ Component, pageProps }: AppProps) {
           <nav
             className={`${
               navbarOpen ? 'block' : 'hidden'
-            } mt-4 md:mt-0 md:flex md:justify-around items-center`}
+            } mt-4 md:mt-0 md:flex md:justify-around items-center gap-5`}
           >
             {navItems.map(({ href, label, icon }) => (
-              <Link href={href} key={label}>
+              <Link href={href} key={label} passHref>
                 <button
-                  className="font-minecraftseven inline-flex items-center px-4 py-3 text-lg font-medium rounded-md text-white hover:bg-gray-700 hover:scale-105 transition transform duration-300 ease-in-out"
-                  style={{ color: '#78D5F5' }}
+                  className="flex items-center gap-3 px-6 py-4 text-2xl font-bold rounded-md transition-transform duration-300 ease-in-out
+          bg-gradient-to-br from-[#162d3e] to-[#0b1823]
+          text-[#78D5F5] shadow-[3px_3px_0_#000] hover:scale-110 hover:shadow-[6px_6px_0_#0d4f7f] outline-2 outline outline-[#78D5F5]"
+                  style={{ fontFamily: 'MinecraftSeven' }}
                 >
                   <Image
                     src={icon}
                     alt={label}
-                    width={24}
-                    height={24}
-                    className="h-6 w-6 mr-3 mt-3"
+                    width={28}
+                    height={28}
+                    className="w-7 h-7 drop-shadow-[0_2px_2px_rgba(0,0,0,0.7)]"
                   />
-                  <span className="text-4xl">{label}</span>
+                  <span className="select-none">{label}</span>
                 </button>
               </Link>
             ))}
 
-            {/* Copy-IP Button */}
+            {/* Copy IP Button */}
             <button
-              className="font-minecraftseven inline-flex items-center px-5 py-3 text-lg font-medium rounded-md text-white hover:bg-gray-700 hover:scale-105 transition transform duration-300 ease-in-out"
               onClick={() => {
                 toast('Copied IP to clipboard', { type: 'success' });
                 navigator.clipboard.writeText('crystopia.net');
               }}
+              className="flex items-center gap-3 px-8 py-4 text-2xl font-bold rounded-md transition-transform duration-300 ease-in-out
+      bg-gradient-to-br from-[#162d3e] to-[#0b1823]
+      text-[#78D5F5] shadow-[3px_3px_0_#000] hover:scale-110 hover:shadow-[6px_6px_0_#0d4f7f] outline-2 outline outline-[#78D5F5]"
+              style={{ fontFamily: 'MinecraftSeven' }}
             >
               <Image
                 src="/icons/copy-ip.png"
                 alt="Copy IP"
                 width={28}
                 height={28}
-                className="h-7 w-7 mr-3 mt-3"
+                className="w-7 h-7 drop-shadow-[0_2px_2px_rgba(0,0,0,0.7)]"
               />
-              <b style={{ color: '#78D5F5' }} className="text-3xl">
-                CRYSTOPIA.NET
-              </b>
+              <span className="select-none">CRYSTOPIA.NET</span>
             </button>
           </nav>
         </header>

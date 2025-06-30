@@ -41,13 +41,13 @@ const HomePage: NextPage = () => {
         </p>
 
         <section>
-          <h2 className="font-minecraftseven text-3xl font-semibold mb-4">
+          <h2 className=" text-3xl font-semibold mb-4">
             EXTRA AND EXPANSION
           </h2>
         </section>
 
         <section>
-          <h2 className="font-minecraftseven text-3xl font-semibold mb-4">
+          <h2 className=" text-3xl font-semibold mb-4">
             1. Acceptance of Terms
           </h2>
           <p>
@@ -57,7 +57,7 @@ const HomePage: NextPage = () => {
         </section>
 
         <section>
-          <h2 className="font-minecraftseven text-3xl font-semibold mb-4">
+          <h2 className=" text-3xl font-semibold mb-4">
             2. Privacy and Data Usage
           </h2>
           <p>
@@ -68,7 +68,7 @@ const HomePage: NextPage = () => {
         </section>
 
         <section>
-          <h2 className="font-minecraftseven text-3xl font-semibold mb-4">
+          <h2 className=" text-3xl font-semibold mb-4">
             3. Minecraft Server Rules
           </h2>
           <p>
@@ -79,7 +79,7 @@ const HomePage: NextPage = () => {
         </section>
 
         <section>
-          <h2 className="font-minecraftseven text-3xl font-semibold mb-4">
+          <h2 className=" text-3xl font-semibold mb-4">
             4. Intellectual Property
           </h2>
           <p>
@@ -90,7 +90,7 @@ const HomePage: NextPage = () => {
         </section>
 
         <section>
-          <h2 className="font-minecraftseven text-3xl font-semibold mb-4">
+          <h2 className=" text-3xl font-semibold mb-4">
             5. Disclaimer of Liability
           </h2>
           <p>
@@ -100,7 +100,7 @@ const HomePage: NextPage = () => {
         </section>
 
         <section>
-          <h2 className="font-minecraftseven text-3xl font-semibold mb-4">
+          <h2 className=" text-3xl font-semibold mb-4">
             6. Changes to Terms
           </h2>
           <p>
@@ -110,7 +110,7 @@ const HomePage: NextPage = () => {
         </section>
 
         <section>
-          <h2 className="font-minecraftseven text-3xl font-semibold mb-4">
+          <h2 className=" text-3xl font-semibold mb-4">
             7. Governing Law
           </h2>
           <p>
@@ -121,7 +121,7 @@ const HomePage: NextPage = () => {
         </section>
 
         <section>
-          <h2 className="font-minecraftseven text-3xl font-semibold mb-4">
+          <h2 className=" text-3xl font-semibold mb-4">
             8. Age and User
           </h2>
           <p>Only members over 16 are allowed to create an account.</p>

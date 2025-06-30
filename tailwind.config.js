@@ -1,5 +1,3 @@
-const { fontFamily } = require('tailwindcss/defaultTheme');
-
 module.exports = {
   content: ['./pages/**/*.tsx', './components/**/*.tsx', './posts/**/*.mdx'],
   darkMode: 'class',
@@ -20,7 +18,7 @@ module.exports = {
     extend: {
       fontFamily: {
         inter: ['Inter'],
-        minecraftseven: ['MinecraftSeven'],
+        minecraftseven: ['MinecraftSeven_2'],
       },
       margin: {
         '380%': '380%',
