@@ -1,10 +1,19 @@
 FROM oven/bun:slim
 
+# Set working directory
 WORKDIR /app
 
-# Install app dependencies
-COPY . .
+# Copy only package files first to cache dependencies
+COPY bun.lockb package.json ./
+
+# Install dependencies
 RUN bun install
+
+# Copy rest of the app
+COPY . .
+
+# Build the app (force build to ignore cache if needed)
 RUN bun run build --force
 
-CMD [ "bun", "run", "start" ]
+# Start the app
+CMD ["bun", "run", "start"]
