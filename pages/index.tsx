@@ -138,7 +138,7 @@ const HomePage: NextPage = () => {
               viewport={{ once: true }}
             >
               <Image
-                src="https://i.imgur.com/CWTL0Y8.png"
+                src="/images/discord.png"
                 alt="Community"
                 width={600}
                 height={400}
