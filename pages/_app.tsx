@@ -1,7 +1,7 @@
 import { AppProps } from 'next/app';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useRef, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { toast } from 'react-toastify';
 
@@ -16,6 +16,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [loading, setLoading] = useState(false);
   const [navbarOpen, setNavbarOpen] = useState(false);
 
+  // Loading state on route change
   useEffect(() => {
     const handleRouteChangeStart = () => setLoading(true);
     const handleRouteChangeComplete = () => setLoading(false);
@@ -31,25 +32,29 @@ function MyApp({ Component, pageProps }: AppProps) {
     };
   }, [router.events]);
 
+  // Detect system theme once on mount (optional fallback included)
   useEffect(() => {
-    const prefersDark = window.matchMedia(
-      '(prefers-color-scheme: dark)'
-    ).matches;
-    setTheme(prefersDark ? 'dark' : 'dark'); // Immer dark, optional fallback
+    if (typeof window !== 'undefined') {
+      const prefersDark = window.matchMedia(
+        '(prefers-color-scheme: dark)'
+      ).matches;
+      setTheme(prefersDark ? 'dark' : 'light');
+    }
   }, []);
 
+  // Apply dark class to <html>
   useEffect(() => {
-    document.documentElement.classList.add('dark');
-  }, []);
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme]);
 
   const navItems = [
     { href: '/', label: 'Home', icon: '/icons/home.png' },
     { href: '/blog', label: 'Blog', icon: '/icons/blog.new.png' },
-    {
-      href: '/guide',
-      label: 'Guide',
-      icon: '/icons/calendar.png',
-    },
+    { href: '/guide', label: 'Guide', icon: '/icons/calendar.png' },
   ];
 
   return (
@@ -57,7 +62,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       {loading && (
         <div className="loading-screen">
           <Image
-            src="/images/grass.png"
+            src="/images/crystopia.png"
             alt="Loading..."
             width={1000}
             height={20}
@@ -66,12 +71,14 @@ function MyApp({ Component, pageProps }: AppProps) {
         </div>
       )}
 
-      <div className="">
+      <div>
         {/* HEADER */}
         <header className="fixed left-1/2 transform -translate-x-1/2 z-20 w-11/12 md:w-2/3 bg-gray-800 rounded-lg shadow-lg p-6 mt-7">
           <div className="flex justify-between items-center">
             <button
-              className="text-white md:hidden"
+              aria-label={navbarOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={navbarOpen}
+              className="text-white md:hidden focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#78D5F5]"
               onClick={() => setNavbarOpen(!navbarOpen)}
             >
               <svg
@@ -85,7 +92,11 @@ function MyApp({ Component, pageProps }: AppProps) {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth="2"
-                  d="M4 6h16M4 12h16m-7 6h7"
+                  d={
+                    navbarOpen
+                      ? 'M6 18L18 6M6 6l12 12'
+                      : 'M4 6h16M4 12h16m-7 6h7'
+                  }
                 />
               </svg>
             </button>
@@ -98,11 +109,11 @@ function MyApp({ Component, pageProps }: AppProps) {
             } mt-4 md:mt-0 md:flex md:justify-around items-center gap-5`}
           >
             {navItems.map(({ href, label, icon }) => (
-              <Link href={href} key={label} passHref>
-                <button
+              <Link href={href} key={label} legacyBehavior>
+                <a
                   className="flex items-center gap-3 px-6 py-4 text-2xl font-bold rounded-md transition-transform duration-300 ease-in-out
-          bg-gradient-to-br from-[#162d3e] to-[#0b1823]
-          text-[#78D5F5] shadow-[3px_3px_0_#000] hover:scale-110 hover:shadow-[6px_6px_0_#0d4f7f] outline-2 outline outline-[#78D5F5]"
+                    bg-gradient-to-br from-[#162d3e] to-[#0b1823]
+                    text-[#78D5F5] shadow-[3px_3px_0_#000] hover:scale-110 hover:shadow-[6px_6px_0_#0d4f7f] outline-2 outline outline-[#78D5F5]"
                   style={{ fontFamily: 'MinecraftSeven' }}
                 >
                   <Image
@@ -113,7 +124,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                     className="w-7 h-7 drop-shadow-[0_2px_2px_rgba(0,0,0,0.7)]"
                   />
                   <span className="select-none">{label}</span>
-                </button>
+                </a>
               </Link>
             ))}
 
@@ -124,8 +135,8 @@ function MyApp({ Component, pageProps }: AppProps) {
                 navigator.clipboard.writeText('crystopia.net');
               }}
               className="flex items-center gap-3 px-8 py-4 text-2xl font-bold rounded-md transition-transform duration-300 ease-in-out
-      bg-gradient-to-br from-[#162d3e] to-[#0b1823]
-      text-[#78D5F5] shadow-[3px_3px_0_#000] hover:scale-110 hover:shadow-[6px_6px_0_#0d4f7f] outline-2 outline outline-[#78D5F5]"
+                bg-gradient-to-br from-[#162d3e] to-[#0b1823]
+                text-[#78D5F5] shadow-[3px_3px_0_#000] hover:scale-110 hover:shadow-[6px_6px_0_#0d4f7f] outline-2 outline outline-[#78D5F5]"
               style={{ fontFamily: 'MinecraftSeven' }}
             >
               <Image
@@ -149,7 +160,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         <footer className="rounded-lg shadow-lg w-full max-w-3xl p-6 mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center space-x-4 text-yellow-900">
-              <Link href="https://discord.crystopia.net" target="_blank">
+              <Link
+                href="https://discord.crystopia.net"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Image
                   src="/icons/discord.png"
                   alt="Discord"
@@ -160,6 +175,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               <Link
                 href="https://www.youtube.com/@CrystopiaNet"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 <Image
                   src="/icons/youtube.png"
